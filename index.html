@@ -402,24 +402,32 @@ var TEMAS = [
  ]
 },
 {
- id:'anuncios', nombre:'Streaming con anuncios', icono:'🎬', pie:'Amazon, Netflix, HBO Max y Disney+ como oferta base',
+ id:'anuncios', nombre:'Streaming con anuncios', icono:'🎬', pie:'Netflix, Disney+ y Universal+ Estándar con anuncios',
  tarjetas:[
-  {f:'¿Qué significa que un plan lleve "Amazon" como oferta base?', d:'Que en vez de la oferta base estándar, el plan se arma con Prime Video incluido en el mismo precio, sin que el cliente lo contrate aparte.'},
-  {f:'¿Cuánto cuesta Amazon Prime Video si se contrata por separado?', d:'$90 al mes.'},
-  {f:'¿Cuánto cuesta Netflix con anuncios por separado?', d:'$110 al mes.'},
-  {f:'¿Qué diferencia hay entre Netflix 2 pantallas y Netflix 4 pantallas?', d:'La cantidad de pantallas donde la familia puede ver Netflix al mismo tiempo: 2 o 4, según la oferta que se arme con el plan.'},
-  {f:'¿Qué son HBO Max y Disney+ "con anuncios"?', d:'Versiones de esas apps con publicidad y más económicas, que también se pueden ofrecer como oferta base del plan en vez de la oferta estándar.'},
-  {f:'¿Para qué le sirve a un vendedor conocer estas ofertas con anuncios?', d:'Para tener una opción de precio distinto cuando al cliente no le alcanza la oferta base o quiere una app específica desde el arranque, sin tener que contratarla aparte después.'}
+  {f:'¿Qué significa que un plan de streaming sea "con anuncios"?', d:'Que el cliente paga menos por la suscripción, pero durante la reproducción aparecen pausas comerciales breves que no se pueden saltar ni adelantar.'},
+  {f:'¿Qué apps de Totalplay tienen versión Estándar con anuncios?', d:'Netflix, Disney+ y Universal+.'},
+  {f:'¿Qué trae Netflix Estándar con anuncios?', d:'Gran variedad de películas y series, imagen Full HD (1080p), hasta 2 dispositivos al mismo tiempo, hasta 15 descargas por dispositivo al mes, y los juegos móviles de Netflix incluidos.'},
+  {f:'¿Para quién es ideal Netflix con anuncios?', d:'Para quien busca ahorrar en su suscripción, familias que usan hasta 2 pantallas, y quienes principalmente ven series y películas en casa.'},
+  {f:'¿Qué trae Disney+ Estándar con anuncios?', d:'El universo Disney, Pixar, Marvel, Star Wars, National Geographic y Hulu, hasta en 2 dispositivos simultáneos, y disponible en Smart TV, celular, tablet, navegador y consolas.'},
+  {f:'¿Qué NO incluye Disney+ con anuncios?', d:'No permite descargar contenido para verlo sin conexión. Además, en eventos deportivos y transmisiones en vivo puede haber publicidad sin importar el plan.'},
+  {f:'¿Qué trae Universal+ Estándar con anuncios?', d:'Películas, series y realities de NBCUniversal, con estrenos exclusivos, y hasta 4 dispositivos simultáneos: su gran ventaja frente a Netflix y Disney+.'},
+  {f:'¿Para quién es ideal Universal+ con anuncios?', d:'Para familias o grupos que usan varias pantallas, quienes disfrutan realities, y quienes quieren complementar Netflix o Disney+ con otro catálogo.'},
+  {f:'¿Cuál de las tres apps con anuncios permite más dispositivos al mismo tiempo?', d:'Universal+, con hasta 4 dispositivos. Netflix y Disney+ permiten hasta 2.'},
+  {f:'¿Por qué ofrecerle a un cliente un plan con anuncios?', d:'Porque sigue teniendo acceso a un catálogo grande, en varios dispositivos, pagando menos. La publicidad es el único cambio a cambio del ahorro.'}
  ],
  preguntas:[
-  {p:'¿Cuánto cuesta Amazon Prime Video contratado por separado?', o:['$70','$90','$110','$130'], r:1,
-   x:'$90 al mes.'},
-  {p:'¿Cuánto cuesta Netflix con anuncios por separado?', o:['$90','$100','$110','$149'], r:2,
-   x:'$110 al mes.'},
-  {p:'Netflix 2 pantallas y Netflix 4 pantallas se diferencian por…', o:['El precio del plan de internet','Cuántas pantallas ven Netflix al mismo tiempo','La calidad de imagen','El número de perfiles'], r:1,
-   x:'La cantidad de pantallas donde se puede ver Netflix a la vez.'},
-  {p:'HBO Max con anuncios y Disney+ con anuncios son…', o:['Versiones más caras de esas apps','Versiones con publicidad y más económicas','Solo para clientes actuales','Apps que ya no existen'], r:1,
-   x:'Son versiones con publicidad, más económicas, que se pueden ofrecer como oferta base del plan.'}
+  {p:'¿Cuáles son las tres apps que Totalplay ofrece en versión Estándar con anuncios?', o:['Netflix, Disney+ y Universal+','Netflix, Amazon y HBO Max','Disney+, Apple TV y HBO Max','Netflix, Universal+ y Apple TV'], r:0,
+   x:'Netflix, Disney+ y Universal+ son las que tienen versión Estándar con anuncios.'},
+  {p:'¿Cuántos dispositivos simultáneos permite Netflix con anuncios?', o:['1','2','3','4'], r:1,
+   x:'Hasta 2 dispositivos al mismo tiempo, dentro del hogar.'},
+  {p:'¿Cuál de las tres apps con anuncios permite hasta 4 dispositivos al mismo tiempo?', o:['Netflix','Disney+','Universal+','Las tres por igual'], r:2,
+   x:'Universal+ es la que más dispositivos simultáneos permite: hasta 4.'},
+  {p:'¿Qué NO puede hacer un cliente con Disney+ Estándar con anuncios?', o:['Ver en Smart TV','Descargar contenido para verlo sin conexión','Ver en varios dispositivos','Ver contenido de Marvel'], r:1,
+   x:'Disney+ con anuncios no permite descargar contenido para verlo sin conexión.'},
+  {p:'¿Cómo funcionan los anuncios en estos planes?', o:['El cliente los puede saltar','Aparecen durante la reproducción y no se pueden saltar ni adelantar','Solo aparecen una vez al mes','No hay anuncios, es solo el nombre'], r:1,
+   x:'Son pausas comerciales breves durante la reproducción, que no se pueden saltar ni adelantar.'},
+  {p:'¿Cuál es la principal razón para ofrecerle a un cliente un plan con anuncios?', o:['Tiene mejor calidad de imagen','Paga menos y sigue disfrutando un catálogo grande','Es exclusivo para clientes nuevos','No tiene límite de dispositivos'], r:1,
+   x:'La ventaja es el ahorro: mismo catálogo, pagando menos, a cambio de aceptar pausas comerciales.'}
  ]
 },
 {
@@ -567,7 +575,7 @@ var TEMAS = [
  ]
 },
 {
- id:'comisiones', nombre:'Comisiones y bono', icono:'💵', pie:'Cambaceo y Punto de Venta · restringido por puesto',
+ id:'comisiones', nombre:'Comisiones y bono', icono:'💵', pie:'Cambaceo y Punto de Venta · no incluye Venta Técnico',
  tarjetas:[
   {f:'¿Cuándo se te paga la comisión de un plan?', d:'Al mes siguiente, cuando el cliente realiza el pago de su mensualidad.'},
   {f:'¿De qué depende que te paguen tu comisión?', d:'De que el cliente pague. Si no paga su mensualidad, la comisión no se genera. Por eso conviene dejarle bien claro cómo y cuándo pagar.'},
@@ -586,7 +594,6 @@ var TEMAS = [
   {f:'¿Qué es un chargeback y cuándo te lo aplican?', d:'Un cargo en contra tuya. Pasa con los adicionales en promoción: se te comisionan desde el mes 1, pero si el cliente los cancela al terminar la promoción, te descuentan esa comisión.'},
   {f:'¿Cómo evitas los chargebacks?', d:'Déjale claro al cliente qué adicionales traen promoción y cuándo se le empieza a cobrar el precio normal, para que no cancele en cuanto le suba el recibo.'},
   {f:'¿De qué precios salen las tablas de comisión?', d:'De los precios de pronto pago. Es el único precio que trae la tabla oficial.'},
-  {f:'¿Cómo se paga la comisión de Venta Técnico?', d:'En dos pagos iguales: 1er y 2do pago. Y ahí no hay escalones: cada plan instalado paga lo mismo desde el primero.'},
   {f:'¿Cómo funciona el pago anticipado del plan?', d:'El cliente paga varios meses por adelantado y el vendedor recibe un porcentaje extra de comisión: 3 meses → 10% · 6 meses → 40% · 12 meses → 100%. Se calcula sobre el esquema de las 3 primeras ventas.'}
  ],
  preguntas:[
