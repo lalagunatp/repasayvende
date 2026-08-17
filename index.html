@@ -172,6 +172,7 @@ a.opcion-modo{text-decoration:none;color:inherit}
 .tema.caduco{border-color:var(--oro);background:#FFFCF4}
 .etiqueta{display:inline-block;background:var(--oro);color:#3A2A00;font-size:12px;font-weight:800;
   letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:2px 7px;vertical-align:middle;margin-left:6px}
+.etiqueta.nueva{background:var(--verde);color:#fff}
 .pie{text-align:center;color:var(--gris);font-size:14px;padding:26px 16px 34px;line-height:1.6}
 .pie .firma{margin-top:8px;font-weight:700}
 </style>
@@ -183,7 +184,7 @@ a.opcion-modo{text-decoration:none;color:inherit}
   <div class="caja">
     <div class="sello" id="sello"></div>
     <h1>Repasa y vende</h1>
-    <p style="color:var(--gris);font-size:17px">Escribe tu número de empleado para entrar.</p>
+    <p style="color:var(--gris);font-size:17px">Escribe tu número de empleado para entrar y seguir aprendiendo jugando.</p>
     <input type="text" id="numero" inputmode="text" autocomplete="off" autocapitalize="characters"
            spellcheck="false" placeholder="00000000" aria-label="Número de empleado">
     <button class="btn" id="btnEntrar">Entrar</button>
@@ -227,8 +228,8 @@ var MINUTOS_INACTIVO = 5;
 var VIGENCIAS = {
   blacknut: '2026-09-30',
   vsb:      '2026-07-31',
-  fox:      '2026-07-31',
-  promos:   '2026-07-31'
+  promos:   '2026-07-31',
+  tips:     '2026-08-31'
 };
 
 /* 2) PERMISOS: qué puestos pueden ver cada tema.
@@ -243,7 +244,16 @@ var PERMISOS = {
                 prefijos: ['SLK','CRC','ECO'] }
 };
 
-/* 3) Otras herramientas del equipo */
+/* 3) NOVEDADES: qué temas son nuevos o se acaban de actualizar (AAAA-MM-DD).
+      La marca "nuevo" o "actualizado" se ve durante 15 días desde esa fecha
+      y luego desaparece sola, sin que nadie tenga que quitarla a mano. */
+var NOVEDADES = {
+  tips:       { tipo:'nuevo',       fecha:'2026-08-17' },
+  anuncios:   { tipo:'nuevo',       fecha:'2026-08-17' },
+  comisiones: { tipo:'actualizado', fecha:'2026-08-17' }
+};
+
+/* 4) Otras herramientas del equipo */
 var ENLACES = [
   { nom:'Carpeta de ventas Residencial', ico:'🏠', url:'https://lalagunatp.github.io/muchasmasapps/',
     des:'Toda la oferta residencial: planes, promos, comisiones y glosario.' },
@@ -255,7 +265,7 @@ var ENLACES = [
     des:'Tus instalaciones y el estado de tu comisión.' }
 ];
 
-/* 4) Puestos que pueden ver reportes de su gente */
+/* 5) Puestos que pueden ver reportes de su gente */
 var PUESTOS_REPORTE = ['DIRECTOR DISTRITAL','LIDER DE VENTAS','LIDER VENTAS','COACH VENTAS',
   'COACH PROMOVENDEDOR PUNTO DE VENTA'];
 
@@ -263,6 +273,70 @@ var PUESTOS_REPORTE = ['DIRECTOR DISTRITAL','LIDER DE VENTAS','LIDER VENTAS','CO
    CONTENIDO
    ===================================================================== */
 var TEMAS = [
+{
+ id:'negocios', nombre:'Totalplay Negocios', icono:'💼', pie:'Soluciones digitales, planes y restaurantes',
+ tarjetas:[
+  {f:'¿Qué son las Soluciones Digitales?', d:'Herramientas que ya vienen incluidas en los planes de Negocios para vender, administrar y proteger el negocio. No son un adicional que se cobre aparte.'},
+  {f:'Enumera las Soluciones Digitales incluidas', d:'Líneas telefónicas · almacenamiento en la nube · facturación ilimitada · Aliado Digital · notas de remisión y gestión de ventas · página web y tienda en línea · Internet Seguro · WiFi Pro · Club WiFi Totalplay.'},
+  {f:'¿Qué es el Aliado Digital?', d:'Soporte técnico especializado y asesoría legal y contable, disponible las 24 horas los 7 días.'},
+  {f:'¿Qué es Internet Seguro?', d:'Una capa de protección que cuida la información y los dispositivos del negocio contra fraudes y virus.'},
+  {f:'¿Qué resuelve Factura Total?', d:'Facturas ilimitadas, recibos de nómina y reportes mensuales, sin contratar otro sistema.'},
+  {f:'¿Qué le da la página web y tienda en línea?', d:'Un sitio profesional personalizado para que su negocio llegue a más clientes y pueda vender por internet.'},
+  {f:'Dos soluciones que casi nadie menciona y venden solas', d:'Google Business Profile, para que el negocio aparezca en el mapa, y WhatsApp Business, para atender clientes por mensajería. En los dos se da asesoría para configurarlos.'},
+  {f:'Los planes de Negocios y sus megas', d:'Elemental 60 · Esencial 200 · Dinámico 300 · Emprendedor 500 · Profesional 800 · Experto 1,000 megas.'},
+  {f:'¿Para qué tipo de negocio es cada plan?', d:'Elemental: abarrotes, papelerías y ferreterías · Esencial: pastelerías, fondas y talleres · Dinámico: cafeterías, veterinarias y estéticas · Emprendedor: consultorios dentales, gimnasios y bares · Profesional: escuelas, restaurantes y fotografía · Experto: centros de salud, despachos y oficinas.'},
+  {f:'¿Cuántos dispositivos conecta cada plan?', d:'Elemental 3 · Esencial 4 · Dinámico 6 · Emprendedor 10 · Profesional y Experto 15.'},
+  {f:'¿Desde cuándo recibe el descuento por lealtad un negocio?', d:'A partir del 6º mes, y es de por vida.'},
+  {f:'¿Qué le ofreces a un restaurante con la manteleta?', d:'Afiliarse a Totalplay Restaurantes: cero comisión por afiliación, la comisión más baja del mercado, mercado cautivo de clientes Totalplay y publicidad dentro del ecosistema digital de Totalplay.'},
+  {f:'¿Qué gana el restaurante al afiliarse?', d:'Precio VIP el primer mes del plan de Negocios y, por 3 meses, $100 de descuento en planes Internet + TV o $50 en planes Internet.'},
+  {f:'El restaurante afiliado puede escoger entre…', d:'Página web gratis por 6 meses (a partir del mes 7 cuesta $160) o el Administrador para Restaurantes por 6 meses.'},
+  {f:'¿Qué hace el Administrador para Restaurantes?', d:'Controla inventarios, ventas, recetas y la operación general del restaurante desde una sola plataforma.'}
+ ],
+ preguntas:[
+  {p:'¿Cuántos megas trae el plan Elemental?', o:['60','100','200','300'], r:0,
+   x:'Elemental son 60 megas, ideal para tiendas de abarrotes, papelerías o ferreterías.'},
+  {p:'¿Cuál es el plan de Negocios de 1,000 megas?', o:['Emprendedor','Profesional','Experto','Dinámico'], r:2,
+   x:'Experto es el de 1,000 megas. Profesional es el de 800.'},
+  {p:'El Aliado Digital incluye…', o:['Solo soporte técnico','Soporte técnico y asesoría legal y contable 24/7','Una línea telefónica extra','Publicidad en redes'], r:1,
+   x:'Trae soporte técnico especializado más asesoría legal y contable las 24 horas.'},
+  {p:'¿Cuántos dispositivos conecta el plan Emprendedor?', o:['4','6','10','15'], r:2,
+   x:'Emprendedor son 500 megas y conecta hasta 10 dispositivos.'},
+  {p:'¿Cuánto cuesta afiliarse a Totalplay Restaurantes?', o:['$160 al mes','Una comisión del 20%','Nada, cero comisión por afiliación','Un mes de renta'], r:2,
+   x:'La afiliación no cuesta y además maneja la comisión más baja del mercado.'},
+  {p:'Las Soluciones Digitales se le cobran al negocio…', o:['Aparte, cada una','No, vienen incluidas en el plan','Solo en el plan Experto','A partir del 6º mes'], r:1,
+   x:'Vienen incluidas en los planes de Negocios; no son un adicional.'},
+  {p:'¿Desde qué mes entra el descuento por lealtad en Negocios?', o:['Del 1º','Del 3º','Del 6º','Del 12º'], r:2,
+   x:'A partir del 6º mes, y es de por vida.'}
+ ]
+},
+{
+ id:'tips', nombre:'Vende más TIPs', icono:'🚀', pie:'Argumentos, speech y comparativos · vigencia 31 ago 2026',
+ tarjetas:[
+  {f:'¿Por qué siempre conviene ofrecer un plan con TV en vez de solo Internet?', d:'Porque no solo vendes internet: entregas una experiencia completa de entretenimiento para toda la familia. Y de paso, tu comisión también crece.'},
+  {f:'¿Qué gana el cliente con TV en los planes de 150 y 250 Megas?', d:'Netflix con anuncios, Universal+ con anuncios y Apple TV durante 5 meses sin costo, en vez de solo 3 meses como en los planes sin TV.'},
+  {f:'Argumento ganador para convertir una venta de solo Internet en una con TV', d:'"Por solo $139 adicionales puedes llevar internet, TV en vivo y hasta 5 meses de tus apps favoritas sin costo, ¿por qué conformarte solo con internet?"'},
+  {f:'¿Cuánto le cuesta al cliente Netflix, Universal+ y Apple TV si los contrata por separado?', d:'Netflix $110 + Universal+ $129 + Apple TV $139 = $378 al mes en total.'},
+  {f:'¿Qué pasa cuando termina la promoción de apps en el plan de 150 Megas con TV?', d:'La mensualidad pasa de $599 a $947 (se suma el costo de las 3 apps y se resta el descuento por lealtad de $30).'},
+  {f:'¿Por qué el plan de 350 Megas es el que "no da sorpresas"?', d:'Porque las apps van incluidas de por vida: $799 con TV o $660 sin TV, y con el descuento por lealtad baja a $759 o $630, sin que suba después.'},
+  {f:'Con TV, ¿cuánto paga de más al mes un cliente de 150 Megas frente a uno de 350 Megas, ya sin promoción?', d:'$188 al mes más caro que si hubiera contratado 350 Megas desde el inicio.'},
+  {f:'Sin TV, ¿cuánto paga de más un cliente de 150 Megas frente a uno de 350 Megas?', d:'En los meses 4 y 5 (cuando ya se le acabaron las apps gratis) paga $179 más, y del mes 6 en adelante la diferencia sube a $189.'},
+  {f:'Tip para vender apps con más confianza', d:'No digas solo "tiene Netflix". Menciona un título concreto que esté de estreno — eso genera muchísima más confianza y cierra la venta más rápido.'}
+ ],
+ preguntas:[
+  {p:'¿Cuánto suman Netflix, Universal+ y Apple TV si el cliente los paga por separado?', o:['$278','$328','$378','$428'], r:2,
+   x:'$110 + $129 + $139 = $378 al mes.'},
+  {p:'¿Cuál es el argumento ganador para vender un plan con TV?', o:['"Es más barato que Netflix"','"Por $139 adicionales llevas internet, TV y hasta 5 meses de apps sin costo"','"La TV es gratis siempre"','"No hay diferencia con solo Internet"'], r:1,
+   x:'Ese es el speech que convierte una venta de solo internet en una con TV.'},
+  {p:'¿Cuánto tiempo disfruta gratis las apps un cliente con TV en el plan de 150 o 250 Megas?', o:['3 meses','5 meses','6 meses','12 meses'], r:1,
+   x:'5 meses con TV, contra solo 3 meses en los planes sin TV.'},
+  {p:'¿Por qué el plan de 350 Megas no le da sorpresas al cliente?', o:['Porque nunca sube de precio nada','Porque las apps van incluidas de por vida','Porque no aplica el descuento por lealtad','Porque no incluye TV'], r:1,
+   x:'Las apps quedan incluidas de por vida, sin que la mensualidad brinque después de unos meses.'},
+  {p:'Con TV, ¿cuánto paga de más al mes un cliente de 150 Megas frente a uno de 350 Megas, una vez que termina la promoción?', o:['$88','$139','$188','$258'], r:2,
+   x:'$188 al mes más, por eso conviene vender la mayor velocidad desde el arranque.'},
+  {p:'Según el tip para vender apps, ¿cómo generas más confianza con el cliente?', o:['Diciendo solo el nombre de la app','Mencionando un título concreto en estreno','Enseñando el catálogo completo','Comparando precios con la competencia'], r:1,
+   x:'Mencionar un título concreto de estreno cierra la venta más rápido que solo decir "tiene Netflix".'}
+ ]
+},
 {
  id:'blacknut', nombre:'Blacknut', icono:'🎮', pie:'Videojuegos en la nube · vigencia 30 sep 2026',
  tarjetas:[
@@ -328,6 +402,27 @@ var TEMAS = [
  ]
 },
 {
+ id:'anuncios', nombre:'Streaming con anuncios', icono:'🎬', pie:'Amazon, Netflix, HBO Max y Disney+ como oferta base',
+ tarjetas:[
+  {f:'¿Qué significa que un plan lleve "Amazon" como oferta base?', d:'Que en vez de la oferta base estándar, el plan se arma con Prime Video incluido en el mismo precio, sin que el cliente lo contrate aparte.'},
+  {f:'¿Cuánto cuesta Amazon Prime Video si se contrata por separado?', d:'$90 al mes.'},
+  {f:'¿Cuánto cuesta Netflix con anuncios por separado?', d:'$110 al mes.'},
+  {f:'¿Qué diferencia hay entre Netflix 2 pantallas y Netflix 4 pantallas?', d:'La cantidad de pantallas donde la familia puede ver Netflix al mismo tiempo: 2 o 4, según la oferta que se arme con el plan.'},
+  {f:'¿Qué son HBO Max y Disney+ "con anuncios"?', d:'Versiones de esas apps con publicidad y más económicas, que también se pueden ofrecer como oferta base del plan en vez de la oferta estándar.'},
+  {f:'¿Para qué le sirve a un vendedor conocer estas ofertas con anuncios?', d:'Para tener una opción de precio distinto cuando al cliente no le alcanza la oferta base o quiere una app específica desde el arranque, sin tener que contratarla aparte después.'}
+ ],
+ preguntas:[
+  {p:'¿Cuánto cuesta Amazon Prime Video contratado por separado?', o:['$70','$90','$110','$130'], r:1,
+   x:'$90 al mes.'},
+  {p:'¿Cuánto cuesta Netflix con anuncios por separado?', o:['$90','$100','$110','$149'], r:2,
+   x:'$110 al mes.'},
+  {p:'Netflix 2 pantallas y Netflix 4 pantallas se diferencian por…', o:['El precio del plan de internet','Cuántas pantallas ven Netflix al mismo tiempo','La calidad de imagen','El número de perfiles'], r:1,
+   x:'La cantidad de pantallas donde se puede ver Netflix a la vez.'},
+  {p:'HBO Max con anuncios y Disney+ con anuncios son…', o:['Versiones más caras de esas apps','Versiones con publicidad y más económicas','Solo para clientes actuales','Apps que ya no existen'], r:1,
+   x:'Son versiones con publicidad, más económicas, que se pueden ofrecer como oferta base del plan.'}
+ ]
+},
+{
  id:'reglas', nombre:'Reglas de negocio', icono:'📋', pie:'Qué convive, qué no, y cómo se modela',
  tarjetas:[
   {f:'Más Apps SÍ convive con…', d:'Descuento por lealtad · promociones de Nuevo Totalplay TV · adicionales de contenido e instalables · Precio Especial (250, 350, 5,000 y 10,000) · descuento de portabilidad · Plan de Verano.'},
@@ -380,28 +475,6 @@ var TEMAS = [
    x:'Fue decisión del proveedor para todo el Continente Americano, no de Totalplay.'},
   {p:'¿Hasta qué fecha es la desactivación paulatina de Alexa en clientes actuales?', o:['31 de julio','5 de agosto','31 de agosto','30 de septiembre'], r:1,
    x:'Hasta el 5 de agosto.'}
- ]
-},
-{
- id:'fox', nombre:'FOX+', icono:'🏆', pie:'$149 el primer mes · hasta el 31 de julio 2026',
- tarjetas:[
-  {f:'¿Cuánto paga el cliente por FOX+?', d:'$149 el primer mes. A partir del segundo mes, $199 al mes.'},
-  {f:'¿En qué planes aplica FOX+?', d:'Planes de 100 a 10,000 Megas de Totalplay TV + Internet, para clientes nuevos y actuales.'},
-  {f:'¿Qué pasa si no se modela dentro de la vigencia?', d:'Ya no podrá modelarse después. Hay que capturarla antes de que termine.'},
-  {f:'¿Con qué convive FOX+?', d:'Match (Netflix), Unbox (Amazon), Disney+, HBO Max Básico, Apple TV, adicionales de contenido, instalables, Nuevo Totalplay TV, portabilidad, megas adicionales, Precio Especial y Descuento Especial.'},
-  {f:'¿Con qué NO convive FOX+?', d:'Con otras promociones de FOX+.'},
-  {f:'¿Cuándo pierde el cliente la promo de FOX+?', d:'Si hace un cambio de plan o si cancela el servicio.'},
-  {f:'¿Qué es FOX+ en pocas palabras?', d:'Un canal 100% de deportes: las ligas y eventos más importantes en un solo lugar, siempre con el evento estelar de la cartelera.'}
- ],
- preguntas:[
-  {p:'¿Cuánto paga el cliente por FOX+ a partir del segundo mes?', o:['$149','$179','$199','$249'], r:2,
-   x:'$149 el primer mes y $199 del segundo en adelante.'},
-  {p:'FOX+ aplica en planes de…', o:['100 a 10,000 Megas TV + Internet','Solo Internet','500 en adelante','Solo clientes nuevos'], r:0,
-   x:'De 100 a 10,000 Megas de TV + Internet, para clientes nuevos y actuales.'},
-  {p:'Si la promoción de FOX+ no se modela dentro de la vigencia…', o:['Se puede modelar después','Ya no podrá modelarse','Se modela automático','La modela el cliente'], r:1,
-   x:'Si no se captura dentro de la vigencia, ya no se puede aplicar después.'},
-  {p:'FOX+ NO convive con…', o:['Disney+','Apple TV','Otras promociones de FOX+','Portabilidad'], r:2,
-   x:'Solo choca con otras promociones del mismo FOX+.'}
  ]
 },
 {
@@ -494,42 +567,6 @@ var TEMAS = [
  ]
 },
 {
- id:'negocios', nombre:'Totalplay Negocios', icono:'💼', pie:'Soluciones digitales, planes y restaurantes',
- tarjetas:[
-  {f:'¿Qué son las Soluciones Digitales?', d:'Herramientas que ya vienen incluidas en los planes de Negocios para vender, administrar y proteger el negocio. No son un adicional que se cobre aparte.'},
-  {f:'Enumera las Soluciones Digitales incluidas', d:'Líneas telefónicas · almacenamiento en la nube · facturación ilimitada · Aliado Digital · notas de remisión y gestión de ventas · página web y tienda en línea · Internet Seguro · WiFi Pro · Club WiFi Totalplay.'},
-  {f:'¿Qué es el Aliado Digital?', d:'Soporte técnico especializado y asesoría legal y contable, disponible las 24 horas los 7 días.'},
-  {f:'¿Qué es Internet Seguro?', d:'Una capa de protección que cuida la información y los dispositivos del negocio contra fraudes y virus.'},
-  {f:'¿Qué resuelve Factura Total?', d:'Facturas ilimitadas, recibos de nómina y reportes mensuales, sin contratar otro sistema.'},
-  {f:'¿Qué le da la página web y tienda en línea?', d:'Un sitio profesional personalizado para que su negocio llegue a más clientes y pueda vender por internet.'},
-  {f:'Dos soluciones que casi nadie menciona y venden solas', d:'Google Business Profile, para que el negocio aparezca en el mapa, y WhatsApp Business, para atender clientes por mensajería. En los dos se da asesoría para configurarlos.'},
-  {f:'Los planes de Negocios y sus megas', d:'Elemental 60 · Esencial 200 · Dinámico 300 · Emprendedor 500 · Profesional 800 · Experto 1,000 megas.'},
-  {f:'¿Para qué tipo de negocio es cada plan?', d:'Elemental: abarrotes, papelerías y ferreterías · Esencial: pastelerías, fondas y talleres · Dinámico: cafeterías, veterinarias y estéticas · Emprendedor: consultorios dentales, gimnasios y bares · Profesional: escuelas, restaurantes y fotografía · Experto: centros de salud, despachos y oficinas.'},
-  {f:'¿Cuántos dispositivos conecta cada plan?', d:'Elemental 3 · Esencial 4 · Dinámico 6 · Emprendedor 10 · Profesional y Experto 15.'},
-  {f:'¿Desde cuándo recibe el descuento por lealtad un negocio?', d:'A partir del 6º mes, y es de por vida.'},
-  {f:'¿Qué le ofreces a un restaurante con la manteleta?', d:'Afiliarse a Totalplay Restaurantes: cero comisión por afiliación, la comisión más baja del mercado, mercado cautivo de clientes Totalplay y publicidad dentro del ecosistema digital de Totalplay.'},
-  {f:'¿Qué gana el restaurante al afiliarse?', d:'Precio VIP el primer mes del plan de Negocios y, por 3 meses, $100 de descuento en planes Internet + TV o $50 en planes Internet.'},
-  {f:'El restaurante afiliado puede escoger entre…', d:'Página web gratis por 6 meses (a partir del mes 7 cuesta $160) o el Administrador para Restaurantes por 6 meses.'},
-  {f:'¿Qué hace el Administrador para Restaurantes?', d:'Controla inventarios, ventas, recetas y la operación general del restaurante desde una sola plataforma.'}
- ],
- preguntas:[
-  {p:'¿Cuántos megas trae el plan Elemental?', o:['60','100','200','300'], r:0,
-   x:'Elemental son 60 megas, ideal para tiendas de abarrotes, papelerías o ferreterías.'},
-  {p:'¿Cuál es el plan de Negocios de 1,000 megas?', o:['Emprendedor','Profesional','Experto','Dinámico'], r:2,
-   x:'Experto es el de 1,000 megas. Profesional es el de 800.'},
-  {p:'El Aliado Digital incluye…', o:['Solo soporte técnico','Soporte técnico y asesoría legal y contable 24/7','Una línea telefónica extra','Publicidad en redes'], r:1,
-   x:'Trae soporte técnico especializado más asesoría legal y contable las 24 horas.'},
-  {p:'¿Cuántos dispositivos conecta el plan Emprendedor?', o:['4','6','10','15'], r:2,
-   x:'Emprendedor son 500 megas y conecta hasta 10 dispositivos.'},
-  {p:'¿Cuánto cuesta afiliarse a Totalplay Restaurantes?', o:['$160 al mes','Una comisión del 20%','Nada, cero comisión por afiliación','Un mes de renta'], r:2,
-   x:'La afiliación no cuesta y además maneja la comisión más baja del mercado.'},
-  {p:'Las Soluciones Digitales se le cobran al negocio…', o:['Aparte, cada una','No, vienen incluidas en el plan','Solo en el plan Experto','A partir del 6º mes'], r:1,
-   x:'Vienen incluidas en los planes de Negocios; no son un adicional.'},
-  {p:'¿Desde qué mes entra el descuento por lealtad en Negocios?', o:['Del 1º','Del 3º','Del 6º','Del 12º'], r:2,
-   x:'A partir del 6º mes, y es de por vida.'}
- ]
-},
-{
  id:'comisiones', nombre:'Comisiones y bono', icono:'💵', pie:'Cambaceo y Punto de Venta · restringido por puesto',
  tarjetas:[
   {f:'¿Cuándo se te paga la comisión de un plan?', d:'Al mes siguiente, cuando el cliente realiza el pago de su mensualidad.'},
@@ -549,9 +586,13 @@ var TEMAS = [
   {f:'¿Qué es un chargeback y cuándo te lo aplican?', d:'Un cargo en contra tuya. Pasa con los adicionales en promoción: se te comisionan desde el mes 1, pero si el cliente los cancela al terminar la promoción, te descuentan esa comisión.'},
   {f:'¿Cómo evitas los chargebacks?', d:'Déjale claro al cliente qué adicionales traen promoción y cuándo se le empieza a cobrar el precio normal, para que no cancele en cuanto le suba el recibo.'},
   {f:'¿De qué precios salen las tablas de comisión?', d:'De los precios de pronto pago. Es el único precio que trae la tabla oficial.'},
-  {f:'¿Cómo se paga la comisión de Venta Técnico?', d:'En dos pagos iguales: 1er y 2do pago. Y ahí no hay escalones: cada plan instalado paga lo mismo desde el primero.'}
+  {f:'¿Cómo se paga la comisión de Venta Técnico?', d:'En dos pagos iguales: 1er y 2do pago. Y ahí no hay escalones: cada plan instalado paga lo mismo desde el primero.'},
+  {f:'¿Cómo funciona el pago anticipado del plan?', d:'El cliente paga varios meses por adelantado y el vendedor recibe un porcentaje extra de comisión: 3 meses → 10% · 6 meses → 40% · 12 meses → 100%. Se calcula sobre el esquema de las 3 primeras ventas.'}
  ],
  preguntas:[
+  {p:'Si un cliente paga 6 meses del plan por adelantado, ¿qué porcentaje extra de comisión recibe el vendedor?',
+   o:['10%','25%','40%','100%'], r:2,
+   x:'6 meses por adelantado da 40% extra. 3 meses da 10% y 12 meses da 100%.'},
   {p:'¿Cuándo se te paga la comisión de un plan?',
    o:['El mismo mes de la venta','El día que se instala','Al mes siguiente, cuando el cliente paga su mensualidad','A los seis meses'], r:2,
    x:'Se paga al mes siguiente, una vez que el cliente realiza el pago de su mensualidad.'},
@@ -774,6 +815,17 @@ function vigente(t){
   var limite = new Date(+p[0], +p[1]-1, +p[2], 23, 59, 59);
   return new Date() <= limite;
 }
+/* ¿Este tema trae marca de "nuevo" o "actualizado"? Solo durante los 15 días
+   siguientes a la fecha registrada en NOVEDADES; después desaparece sola. */
+function novedadDe(t){
+  var n = NOVEDADES[t.id];
+  if (!n || !n.fecha) return null;
+  var p = n.fecha.split('-');
+  var desde = new Date(+p[0], +p[1]-1, +p[2]);
+  var dias = Math.floor((new Date() - desde) / 86400000);
+  if (dias < 0 || dias > 15) return null;
+  return n.tipo === 'actualizado' ? 'actualizado' : 'nuevo';
+}
 function fechaBonita(iso){
   if (!iso) return '';
   var p = iso.split('-');
@@ -935,7 +987,7 @@ function pintarBienvenida(){
       '<div class="fila"><span class="et">Número</span><span class="va">' + esc(USUARIO.num) + '</span></div>' +
     '</div>' +
     '<button class="btn" id="continuar">Continuar</button>' +
-    '<div class="pieMando">Si algún dato no es tuyo, sal y vuelve a capturar tu número.</div>';
+    '<div class="pieMando">Si algún dato no es tuyo, sal y vuelve a capturar tu número. Y recuerda: entre más juegues con las tarjetas, más rápido se te queda.</div>';
   $('continuar').addEventListener('click', pintarMenu);
   window.scrollTo(0,0);
 }
@@ -956,8 +1008,9 @@ function salir(){
 function pintarMenu(){
   cerrarSesion();
   VISTA = 'menu';
-  var h = '<div class="eyebrow">Capacitación</div>' +
+  var h = '<div class="eyebrow">Sigue aprendiendo</div>' +
           '<h1>¿Qué quieres hacer hoy?</h1>' +
+          '<p style="color:var(--gris);font-size:15px;margin-top:-6px">No hay límite de intentos ni orden correcto: juega, repasa y repite las veces que quieras.</p>' +
           '<button class="opcion-modo" data-ir="tarjetas"><span class="ico">🃏</span>' +
           '<span><b>Tarjetas didácticas</b><span>Léelas, voltéalas y marca lo que ya te sabes.</span></span></button>' +
           '<button class="opcion-modo" data-ir="cuestionario"><span class="ico">✅</span>' +
@@ -1084,7 +1137,8 @@ function pintarTemas(modo){
   var lista = temasVisibles();
   var h = '<button class="btn fantasma" id="volver">‹ Volver</button>' +
           '<div class="eyebrow">' + (modo === 'tarjetas' ? 'Tarjetas' : 'Cuestionario') + '</div>' +
-          '<h1>Elige un tema</h1>';
+          '<h1>Elige un tema</h1>' +
+          '<p style="color:var(--gris);font-size:15px;margin-top:-6px">El que quieras, en el orden que quieras. Aprender también puede ser divertido.</p>';
 
   if (modo === 'cuestionario'){
     h += '<button class="btn" data-tema="TODOS">Cuestionario completo (' +
@@ -1095,8 +1149,11 @@ function pintarTemas(modo){
     var cuantas = modo === 'tarjetas' ? t.tarjetas.length : t.preguntas.length;
     var av = avanceDe(t.id, modo);
     var caduco = !vigente(t);
+    var nov = novedadDe(t);
     h += '<button class="tema' + (caduco ? ' caduco' : '') + '" data-tema="' + t.id + '"><span class="ico">' + t.icono + '</span>' +
-         '<span class="txt"><b>' + esc(t.nombre) + (caduco ? ' <span class="etiqueta">venció</span>' : '') + '</b>' +
+         '<span class="txt"><b>' + esc(t.nombre) +
+              (nov ? ' <span class="etiqueta nueva">' + (nov === 'actualizado' ? 'actualizado' : 'nuevo') + '</span>' : '') +
+              (caduco ? ' <span class="etiqueta">venció</span>' : '') + '</b>' +
          '<small>' + (caduco ? 'Terminó el ' + fechaBonita(finDe(t.id)) + ' · solo tú lo ves'
                              : cuantas + (modo === 'tarjetas' ? ' tarjetas' : ' preguntas') +
                                (av ? ' · ' + av.txt : '')) + '</small>' +
@@ -1243,7 +1300,7 @@ function finTarjetas(){
           '<div class="lbl">' + TJ.mal + ' por repasar · ' + t.tarjetas.length + ' tarjetas</div></div>' +
           '<h2>Terminaste ' + esc(t.nombre) + '</h2>';
   h += calificadas
-     ? '<p>Te sabías el ' + pct + '% de las que calificaste. Ahora ponte a prueba.</p>'
+     ? '<p>Te sabías el ' + pct + '% de las que calificaste. ¡Bien ahí! Ahora ponte a prueba.</p>'
      : '<p>Ahora ponte a prueba con el cuestionario.</p>';
   h += '<button class="btn" id="alQuiz">Contestar el cuestionario de este tema</button>' +
        '<button class="btn sec" id="repetir">Volver a ver las tarjetas</button>' +
@@ -1350,9 +1407,9 @@ function finCuestionario(){
   guardarAvance(CU.temaId, 'cuestionario', pct);
   cerrarSesion();
 
-  var juicio = pct >= 90 ? 'Excelente. Ya lo dominas.'
-             : pct >= 70 ? 'Vas bien. Repasa lo que fallaste.'
-             : 'Todavía no. Vuelve a las tarjetas antes de salir a vender.';
+  var juicio = pct >= 90 ? '¡Excelente! Ya lo dominas, sigue así.'
+             : pct >= 70 ? '¡Vas muy bien! Repasa lo que fallaste y sube tu marca.'
+             : 'Todavía no, pero vas aprendiendo. Vuelve a las tarjetas, repite las veces que quieras y regresa cuando te sientas listo.';
 
   var h = '<div class="marcador"><div class="num">' + pct + '%</div>' +
           '<div class="lbl">' + CU.bien + ' de ' + total + ' correctas</div></div>' +
