@@ -185,10 +185,32 @@ a.opcion-modo{text-decoration:none;color:inherit}
     <div class="sello" id="sello"></div>
     <h1>Repasa y vende</h1>
     <p style="color:var(--gris);font-size:17px">Escribe tu número de empleado para entrar y seguir aprendiendo jugando.</p>
-    <input type="text" id="numero" inputmode="text" autocomplete="off" autocapitalize="characters"
-           spellcheck="false" placeholder="00000000" aria-label="Número de empleado">
-    <button class="btn" id="btnEntrar">Entrar</button>
-    <div class="aviso" id="avisoAcceso">Cargando la lista de acceso…</div>
+
+    <div id="pasoNumero">
+      <input type="text" id="numero" inputmode="numeric" autocomplete="off" autocapitalize="characters"
+             spellcheck="false" placeholder="00000000" aria-label="Número de empleado">
+      <button class="btn" id="btnSiguienteNumero">Continuar</button>
+    </div>
+
+    <div id="pasoPin" class="oculto">
+      <input type="password" id="pinActual" inputmode="numeric" autocomplete="off" maxlength="4"
+             placeholder="•••• PIN" aria-label="Tu PIN">
+      <button class="btn" id="btnEntrarPin">Entrar</button>
+      <button class="btn sec" id="btnCambiarNumero" style="margin-top:8px">Usar otro número</button>
+    </div>
+
+    <div id="pasoNuevoPin" class="oculto">
+      <label for="pinNuevo1" style="display:block;font-size:14px;font-weight:700;color:var(--gris);margin-bottom:6px">Crea tu PIN personal (4 dígitos)</label>
+      <input type="password" id="pinNuevo1" inputmode="numeric" autocomplete="off" maxlength="4"
+             placeholder="••••" aria-label="PIN nuevo">
+      <label for="pinNuevo2" style="display:block;font-size:14px;font-weight:700;color:var(--gris);margin:10px 0 6px">Confírmalo</label>
+      <input type="password" id="pinNuevo2" inputmode="numeric" autocomplete="off" maxlength="4"
+             placeholder="••••" aria-label="Confirmar PIN nuevo">
+      <button class="btn" id="btnGuardarPin">Guardar mi PIN</button>
+      <p class="pieMando" style="margin-top:10px">Debe ser distinto a tu número de empleado y al PIN precargado, sin dígitos repetidos ni consecutivos (ej. 1234).</p>
+    </div>
+
+    <div class="aviso" id="avisoAcceso"></div>
   </div>
 </section>
 
@@ -213,9 +235,13 @@ a.opcion-modo{text-decoration:none;color:inherit}
    Designed by Lone Wolf | lone.wolf.verified@gmail.com
    ===================================================================== */
 
-var HOJA_ACCESO = '1cfOzkjDzA1Z-lG1v8SOfjjivx5ymSJTshRMI5vN6xtQ';
+/* Backend de identidad (el mismo que usa "Mi avance de instalaciones"):
+   valida número + PIN del lado del servidor contra la hoja PLANTILLA.
+   El navegador nunca toca esa hoja ni conoce su ID. */
+var URL_BACKEND = 'https://script.google.com/macros/s/AKfycbzS3CS_JE2GIwfqD_TgPHb6mzJl-9NlMyn-y8k1dkPeq58OS8aSrQDGpDCFu_vkQYFG/exec';
 var BUZON = 'https://script.google.com/macros/s/AKfycbxi4UytXdYQw3Sr-Jmlbc6iyC-sYgI2EPEzOAHxDA2MeO0e6zOQVIwMWzCVIwxoMbsIFQ/exec';
 var MINUTOS_INACTIVO = 5;
+var PIN_PRECARGADO = '8888';
 
 /* =====================================================================
    LISTAS DE CONTROL — aquí se edita todo lo que cambia seguido
@@ -697,9 +723,59 @@ var RUTA = [];
 var DATOS_REPORTE = null;
 
 /* =====================================================================
-   DIRECTORIO DE ACCESO
+   BACKEND DE IDENTIDAD (login por PIN, firmado del lado del servidor)
+   El navegador nunca toca la hoja de empleados: solo habla con
+   URL_BACKEND por JSONP y recibe un token firmado. Mismo protocolo que
+   usa "Mi avance de instalaciones".
    ===================================================================== */
-var LLAVE_DIR = 'cap_directorio_v1';
+var TOKEN = '';
+
+function llamarBackend(params, segundos){
+  return new Promise(function(resolver, rechazar){
+    if (!URL_BACKEND){ rechazar(new Error('sin URL de backend')); return; }
+    var fn = 'tpAcc' + Math.random().toString(36).slice(2,9);
+    var s = document.createElement('script');
+    var reloj = setTimeout(function(){ limpiar(); rechazar(new Error('El servidor no respondió a tiempo')); }, (segundos||20)*1000);
+    function limpiar(){ clearTimeout(reloj); try { delete window[fn]; } catch(e){ window[fn] = undefined; } s.remove(); }
+    window[fn] = function(j){ limpiar(); resolver(j); };
+    s.onerror = function(){ limpiar(); rechazar(new Error('No se pudo alcanzar el servidor')); };
+    var q = Object.keys(params).map(function(k){ return k + '=' + encodeURIComponent(params[k]==null?'':params[k]); }).join('&');
+    s.src = URL_BACKEND + '?' + q + '&callback=' + fn;
+    document.head.appendChild(s);
+  });
+}
+
+/* Mismas reglas que valida el backend; esto solo evita hacerle esperar
+   al usuario un viaje de red por un PIN obviamente inválido. */
+function pinInvalido(pin, numero){
+  if (!/^\d{4}$/.test(pin)) return 'El PIN debe ser de 4 dígitos.';
+  if (/^(\d)\1{3}$/.test(pin)) return 'El PIN no puede ser el mismo dígito repetido.';
+  var d = pin.split('').map(Number), asc = true, desc = true;
+  for (var i=1;i<d.length;i++){ if (d[i] !== d[i-1]+1) asc = false; if (d[i] !== d[i-1]-1) desc = false; }
+  if (asc || desc) return 'El PIN no puede ser una secuencia consecutiva (ej. 1234).';
+  var emp = String(numero||'').replace(/\D/g,'');
+  if (pin === String(numero||'') || (emp && pin === emp.slice(-4))) return 'El PIN no puede ser igual a tu número de empleado.';
+  if (pin === PIN_PRECARGADO) return 'Elige un PIN distinto al precargado.';
+  return '';
+}
+
+/* Lee el "exp" del token sin el secreto (solo la parte pública) para
+   decidir si vale la pena restaurar la sesión guardada o pedir login. */
+function tokenVigente(token){
+  try {
+    var b64 = String(token||'').split('.')[0].replace(/-/g,'+').replace(/_/g,'/');
+    while (b64.length % 4) b64 += '=';
+    var payload = JSON.parse(decodeURIComponent(escape(atob(b64))));
+    return !!payload.exp && Date.now() < payload.exp;
+  } catch(e){ return false; }
+}
+
+/* =====================================================================
+   DIRECTORIO DE EQUIPO (solo para quien puede ver reportes de su gente)
+   Se pide al backend, ya autenticado con el token de sesión, y solo
+   cuando alguien abre "Ver resultados de mi equipo" — no al entrar.
+   ===================================================================== */
+var LLAVE_DIR = 'cap_directorio_v2';
 
 function cargarDirectorio(alTerminar){
   var guardado = null;
@@ -715,43 +791,27 @@ function cargarDirectorio(alTerminar){
 }
 
 function bajarDirectorio(alTerminar){
-  var manejador = 'dirTP' + Date.now().toString(36);
-  var url = 'https://docs.google.com/spreadsheets/d/' + HOJA_ACCESO +
-            '/gviz/tq?gid=0&headers=1&tq=' + encodeURIComponent('select A,B,C,D,E,F') +
-            '&tqx=out:json;responseHandler:' + manejador;
-  var listo = false;
-
-  window[manejador] = function(resp){
-    listo = true;
-    try {
-      var filas = [];
-      var rows = (resp && resp.table && resp.table.rows) || [];
-      for (var i=0;i<rows.length;i++){
-        var c = rows[i].c || [];
-        var num = c[0] && c[0].v != null ? norm(c[0].v) : '';
-        if (!num) continue;
-        filas.push({
-          num: num,
-          nombre: c[1] && c[1].v != null ? String(c[1].v) : '',
-          distrito: c[2] && c[2].v != null ? String(c[2].v) : '',
-          posicion: c[3] && c[3].v != null ? norm(c[3].v) : '',
-          jefe: c[4] && c[4].v != null ? norm(c[4].v) : ''
-        });
-      }
-      if (filas.length){
-        DIRECTORIO = filas;
-        try { localStorage.setItem(LLAVE_DIR, JSON.stringify({t:Date.now(), filas:filas})); } catch(e){}
-      }
-    } catch(e){}
-    try { delete window[manejador]; } catch(e){ window[manejador] = null; }
+  llamarBackend({accion:'directorio', token:TOKEN}, 20).then(function(r){
+    if (!r || !r.ok){ alTerminar(DIRECTORIO.length > 0); return; }
+    var filas = [], datos = r.datos || [];
+    for (var i=0;i<datos.length;i++){
+      var d = datos[i];
+      var num = d[0] != null ? norm(d[0]) : '';
+      if (!num) continue;
+      filas.push({
+        num: num,
+        nombre: d[1] != null ? String(d[1]) : '',
+        distrito: d[2] != null ? String(d[2]) : '',
+        posicion: d[3] != null ? norm(d[3]) : '',
+        jefe: d[4] != null ? norm(d[4]) : ''
+      });
+    }
+    if (filas.length){
+      DIRECTORIO = filas;
+      try { localStorage.setItem(LLAVE_DIR, JSON.stringify({t:Date.now(), filas:filas})); } catch(e){}
+    }
     alTerminar(DIRECTORIO.length > 0);
-  };
-
-  var s = document.createElement('script');
-  s.src = url;
-  s.onerror = function(){ if (!listo) alTerminar(DIRECTORIO.length > 0); };
-  document.head.appendChild(s);
-  setTimeout(function(){ if (!listo) alTerminar(DIRECTORIO.length > 0); }, 12000);
+  })['catch'](function(){ alTerminar(DIRECTORIO.length > 0); });
 }
 
 function buscarPersona(numero){
@@ -938,36 +998,119 @@ function cerrarSesion(){
 /* =====================================================================
    ACCESO
    ===================================================================== */
+var NUMERO_TEMP = '';
+
 function iniciarAcceso(){
-  $('avisoAcceso').textContent = 'Cargando la lista de acceso…';
-  cargarDirectorio(function(ok){
-    $('avisoAcceso').textContent = ok
-      ? 'Solo entra el personal con acceso a la carpeta de ventas.'
-      : 'No se pudo cargar la lista. Revisa tu conexión y vuelve a intentar.';
-  });
-  $('btnEntrar').addEventListener('click', intentarEntrar);
-  $('numero').addEventListener('keydown', function(e){ if (e.key === 'Enter') intentarEntrar(); });
+  $('avisoAcceso').textContent = 'Solo entra el personal con acceso a la carpeta de ventas.';
+  $('btnSiguienteNumero').addEventListener('click', pedirPin);
+  $('numero').addEventListener('keydown', function(e){ if (e.key === 'Enter') pedirPin(); });
+  $('btnEntrarPin').addEventListener('click', intentarEntrarPin);
+  $('pinActual').addEventListener('keydown', function(e){ if (e.key === 'Enter') intentarEntrarPin(); });
+  $('btnCambiarNumero').addEventListener('click', mostrarPasoNumero);
+  $('btnGuardarPin').addEventListener('click', guardarPinNuevo);
+  $('pinNuevo2').addEventListener('keydown', function(e){ if (e.key === 'Enter') guardarPinNuevo(); });
 }
 
-function intentarEntrar(){
-  var valor = norm($('numero').value);
+function mostrarPasoNumero(){
+  $('pasoPin').classList.add('oculto');
+  $('pasoNuevoPin').classList.add('oculto');
+  $('pasoNumero').classList.remove('oculto');
+  $('avisoAcceso').innerHTML = '';
+  NUMERO_TEMP = ''; TOKEN = '';
+  $('numero').value = '';
+  $('numero').focus();
+}
+function mostrarPasoPin(){
+  $('pasoNumero').classList.add('oculto');
+  $('pasoNuevoPin').classList.add('oculto');
+  $('pasoPin').classList.remove('oculto');
+  $('avisoAcceso').innerHTML = '';
+  $('pinActual').value = '';
+  $('pinActual').focus();
+}
+function mostrarPasoNuevoPin(){
+  $('pasoNumero').classList.add('oculto');
+  $('pasoPin').classList.add('oculto');
+  $('pasoNuevoPin').classList.remove('oculto');
+  $('avisoAcceso').innerHTML = '';
+  $('pinNuevo1').value = ''; $('pinNuevo2').value = '';
+  $('pinNuevo1').focus();
+}
+
+function pedirPin(){
+  var valor = String($('numero').value).replace(/\s+/g,'');
   if (!valor){
     $('avisoAcceso').innerHTML = '<span class="error">Escribe tu número de empleado.</span>';
     return;
   }
-  if (!DIRECTORIO.length){
-    $('avisoAcceso').innerHTML = '<span class="error">Todavía no carga la lista. Espera un momento.</span>';
-    cargarDirectorio(function(){});
+  NUMERO_TEMP = valor;
+  mostrarPasoPin();
+}
+
+function intentarEntrarPin(){
+  var pin = String($('pinActual').value).trim();
+  if (!/^\d{4}$/.test(pin)){
+    $('avisoAcceso').innerHTML = '<span class="error">Escribe tu PIN de 4 dígitos.</span>';
     return;
   }
-  var p = buscarPersona(valor);
-  if (!p){
-    $('avisoAcceso').innerHTML = '<span class="error">Ese número no tiene acceso a la carpeta de ventas.</span>';
-    return;
-  }
-  USUARIO = p;
-  try { sessionStorage.setItem('cap_usuario', JSON.stringify(p)); } catch(e){}
-  entrarApp();
+  var btn = $('btnEntrarPin');
+  btn.disabled = true; btn.textContent = 'Validando…';
+  llamarBackend({accion:'loginGeneral', numero:NUMERO_TEMP, pin:pin}, 20).then(function(r){
+    btn.disabled = false; btn.textContent = 'Entrar';
+    if (!r || !r.ok){
+      var msg = {
+        noAutorizado: 'El número ' + esc(NUMERO_TEMP) + ' no está en la lista de acceso. Verifícalo con tu líder.',
+        pinIncorrecto: 'PIN incorrecto. Verifícalo con tu líder si no lo recuerdas.'
+      }[r && r.error] || ((r && r.error) || 'No se pudo verificar tu acceso.');
+      $('avisoAcceso').innerHTML = '<span class="error">' + msg + '</span>';
+      return;
+    }
+    TOKEN = r.token;
+    USUARIO = { num: norm(r.numero), nombre: r.nombre || '', distrito: r.distrito || '',
+                posicion: norm(r.posicion || ''), homologado: r.homologado || '' };
+    if (r.debeCambiarPin){ mostrarPasoNuevoPin(); return; }
+    registrarEntrada(USUARIO);
+    guardarSesion();
+    entrarApp();
+  })['catch'](function(){
+    btn.disabled = false; btn.textContent = 'Entrar';
+    $('avisoAcceso').innerHTML = '<span class="error">No se pudo verificar tu acceso. Revisa tu señal y vuelve a intentar.</span>';
+  });
+}
+
+function guardarPinNuevo(){
+  var p1 = String($('pinNuevo1').value).trim(), p2 = String($('pinNuevo2').value).trim();
+  var err = pinInvalido(p1, NUMERO_TEMP);
+  if (err){ $('avisoAcceso').innerHTML = '<span class="error">' + esc(err) + '</span>'; return; }
+  if (p1 !== p2){ $('avisoAcceso').innerHTML = '<span class="error">Los dos PIN no coinciden.</span>'; return; }
+  var btn = $('btnGuardarPin');
+  btn.disabled = true; btn.textContent = 'Guardando…';
+  llamarBackend({accion:'cambiarPin', token:TOKEN, pinNuevo:p1}, 20).then(function(r){
+    btn.disabled = false; btn.textContent = 'Guardar mi PIN';
+    if (!r || !r.ok){
+      $('avisoAcceso').innerHTML = '<span class="error">' + esc((r && r.error) || 'No se pudo guardar tu PIN.') + '</span>';
+      return;
+    }
+    TOKEN = r.token;
+    registrarEntrada(USUARIO);
+    guardarSesion();
+    entrarApp();
+  })['catch'](function(){
+    btn.disabled = false; btn.textContent = 'Guardar mi PIN';
+    $('avisoAcceso').innerHTML = '<span class="error">No se pudo guardar tu PIN. Revisa tu señal y vuelve a intentar.</span>';
+  });
+}
+
+function guardarSesion(){
+  try { sessionStorage.setItem('cap_usuario', JSON.stringify({usuario:USUARIO, token:TOKEN})); } catch(e){}
+}
+
+/* Bitácora propia de repasayvende (pestaña "Accesos Repasa", separada de
+   la de avancecomisiones). Se llama solo al completar un login real, no
+   en cada recarga de página. Best effort: si falla, no pasa nada. */
+function registrarEntrada(u){
+  llamarBackend({accion:'registrarAccesoRepasa', num:u.num, nombre:u.nombre||'',
+                 puesto:u.posicion||'', distrito:u.distrito||''}, 15)['catch'](function(){});
 }
 
 function entrarApp(){
@@ -1002,10 +1145,12 @@ function pintarBienvenida(){
 function salir(){
   cerrarSesion();
   USUARIO = null;
+  TOKEN = '';
+  DIRECTORIO = [];
   try { sessionStorage.removeItem('cap_usuario'); } catch(e){}
   $('app').classList.add('oculto');
   $('acceso').classList.remove('oculto');
-  $('numero').value = '';
+  mostrarPasoNumero();
   $('avisoAcceso').textContent = 'Solo entra el personal con acceso a la carpeta de ventas.';
 }
 
@@ -1478,13 +1623,33 @@ function abrirReporte(){
   VISTA = 'reporte';
   RUTA = [];
   $('vista').innerHTML = '<button class="btn fantasma" id="volver">‹ Volver</button>' +
-                         '<h1>Resultados de mi equipo</h1><p id="cargando">Consultando la bitácora…</p>';
+                         '<h1>Resultados de mi equipo</h1><p id="cargando">Consultando el directorio…</p>';
   $('volver').addEventListener('click', pintarMenu);
-  pedirReporte(function(ok){
-    if (!ok) return pantallaFalloReporte();
-    armarAvance();
-    pintarNivel(USUARIO.num);
+  cargarDirectorio(function(okDir){
+    if (!okDir) return pantallaFalloDirectorio();
+    $('vista').innerHTML = '<button class="btn fantasma" id="volver">‹ Volver</button>' +
+                           '<h1>Resultados de mi equipo</h1><p id="cargando">Consultando la bitácora…</p>';
+    $('volver').addEventListener('click', pintarMenu);
+    pedirReporte(function(ok){
+      if (!ok) return pantallaFalloReporte();
+      armarAvance();
+      pintarNivel(USUARIO.num);
+    });
   });
+}
+
+function pantallaFalloDirectorio(){
+  var h = '<button class="btn fantasma" id="volver3">‹ Volver</button>' +
+    '<h1>Resultados de mi equipo</h1>' +
+    '<div class="vencido"><b>No se pudo leer el directorio</b>' +
+    'Puede ser tu conexión, o que tu sesión ya venció (dura 4 horas). Sal y vuelve a entrar con tu número y PIN.</div>' +
+    '<button class="btn" id="reintentarDir">Volver a intentar</button>' +
+    '<button class="btn sec" id="salirDir">Salir y volver a entrar</button>';
+  $('vista').innerHTML = h;
+  $('volver3').addEventListener('click', pintarMenu);
+  $('reintentarDir').addEventListener('click', abrirReporte);
+  $('salirDir').addEventListener('click', salir);
+  window.scrollTo(0,0);
 }
 
 function pantallaFalloReporte(){
@@ -1839,11 +2004,12 @@ function arrancar(){
 
   try {
     var g = JSON.parse(sessionStorage.getItem('cap_usuario') || 'null');
-    if (g && g.num){
-      cargarDirectorio(function(){
-        USUARIO = buscarPersona(g.num) || g;
-        entrarApp();
-      });
+    if (g && g.usuario && g.token && tokenVigente(g.token)){
+      USUARIO = g.usuario;
+      TOKEN = g.token;
+      entrarApp();
+    } else {
+      try { sessionStorage.removeItem('cap_usuario'); } catch(e){}
     }
   } catch(e){}
 
