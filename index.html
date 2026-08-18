@@ -267,8 +267,11 @@ a.opcion-modo{text-decoration:none;color:inherit}
 /* Backend de identidad (el mismo que usa "Mi avance de instalaciones"):
    valida número + PIN del lado del servidor contra la hoja PLANTILLA.
    El navegador nunca toca esa hoja ni conoce su ID. */
+/* Único backend para todo: identidad (NIP), directorio, accesos, y ahora
+   también telemetría de estudio (tarjetas/cuestionarios) y config de
+   vigencias — todo dentro de BASE LA LAGUNA 2026. El navegador nunca
+   conoce el ID de esa hoja. */
 var URL_BACKEND = 'https://script.google.com/macros/s/AKfycbzS3CS_JE2GIwfqD_TgPHb6mzJl-9NlMyn-y8k1dkPeq58OS8aSrQDGpDCFu_vkQYFG/exec';
-var BUZON = 'https://script.google.com/macros/s/AKfycbxi4UytXdYQw3Sr-Jmlbc6iyC-sYgI2EPEzOAHxDA2MeO0e6zOQVIwMWzCVIwxoMbsIFQ/exec';
 var MINUTOS_INACTIVO = 5;
 var PIN_PRECARGADO = '8888';
 
@@ -1005,12 +1008,12 @@ function enviar(final){
   try {
     if (navigator.sendBeacon){
       var blob = new Blob([cuerpo], {type:'text/plain;charset=UTF-8'});
-      if (navigator.sendBeacon(BUZON, blob)) return;
+      if (navigator.sendBeacon(URL_BACKEND, blob)) return;
     }
   } catch(e){}
 
   try {
-    fetch(BUZON, {method:'POST', body:cuerpo, headers:{'Content-Type':'text/plain;charset=UTF-8'},
+    fetch(URL_BACKEND, {method:'POST', body:cuerpo, headers:{'Content-Type':'text/plain;charset=UTF-8'},
                   keepalive:true, mode:'no-cors'})['catch'](function(){});
   } catch(e){}
 }
@@ -1352,7 +1355,7 @@ function mandarConfig(temaId, fecha, quitar){
     { tema: temaId, vigencia: fecha || '', oculto: !!quitar,
       quien: USUARIO ? USUARIO.num : '' } ] });
   try {
-    fetch(BUZON, { method:'POST', body:cuerpo,
+    fetch(URL_BACKEND, { method:'POST', body:cuerpo,
                    headers:{'Content-Type':'text/plain;charset=UTF-8'}, mode:'no-cors' })['catch'](function(){});
   } catch(e){}
 
@@ -1695,8 +1698,6 @@ function descendencia(numero){
   return salida;
 }
 
-var DIAG = [];
-
 function abrirReporte(){
   VISTA = 'reporte';
   RUTA = [];
@@ -1734,96 +1735,24 @@ function pantallaFalloReporte(){
   var h = '<button class="btn fantasma" id="volver2">‹ Volver</button>' +
     '<h1>Resultados de mi equipo</h1>' +
     '<div class="vencido"><b>No se pudo leer la bitácora</b>' +
-    'La app sí abrió, pero el buzón donde se guardan los resultados no contestó.</div>' +
-    '<div class="eyebrow" style="margin-top:18px">Qué pasó, paso por paso</div>';
-  for (var i=0;i<DIAG.length;i++){
-    h += '<div class="falla">' + esc(DIAG[i]) + '</div>';
-  }
-  h += '<div class="eyebrow" style="margin-top:18px">Cómo se arregla</div>' +
-    '<div class="explica">En la Hoja de Google de la bitácora entra a <b>Extensiones → Apps Script</b>, ' +
-    'luego <b>Implementar → Administrar implementaciones</b>, y con el lápiz de editar revisa que ' +
-    '<b>“Quién tiene acceso” diga “Cualquier persona”</b> (no “Solo yo” ni “Cualquier persona con cuenta de Google”). ' +
-    'Guarda como <b>Nueva versión</b> y vuelve a entrar aquí.</div>' +
+    'Puede ser tu conexión, o que tu sesión ya venció. Vuelve a intentar, o sal y entra de nuevo.</div>' +
     '<button class="btn" id="reintentar">Volver a intentar</button>' +
-    '<button class="btn sec" id="abrirBuzon">Abrir el buzón en otra pestaña</button>';
+    '<button class="btn sec" id="salirRep">Salir y volver a entrar</button>';
   $('vista').innerHTML = h;
   $('volver2').addEventListener('click', pintarMenu);
   $('reintentar').addEventListener('click', function(){ DATOS_REPORTE = null; abrirReporte(); });
-  $('abrirBuzon').addEventListener('click', function(){
-    window.open(BUZON + '?fn=ping', '_blank');
-  });
+  $('salirRep').addEventListener('click', salir);
   window.scrollTo(0,0);
 }
 
-/* Primero por conexión directa; si no se puede, por el camino viejo (JSONP).
-   Cada paso se anota en DIAG para poder ver dónde se atoró. */
 function pedirReporte(alTerminar){
   if (DATOS_REPORTE){ armarAvance(); return alTerminar(true); }
-  DIAG = ['1. Llamando al buzón: ' + BUZON.slice(0, 60) + '…'];
-  var url = BUZON + '?fn=todo&t=' + Date.now();
-  var yaTermino = false;
-  function terminar(ok){ if (!yaTermino){ yaTermino = true; alTerminar(ok); } }
-
-  var reloj = setTimeout(function(){
-    DIAG.push('El buzón tardó más de 25 segundos en contestar.');
-    terminar(!!DATOS_REPORTE);
-  }, 25000);
-
-  function cerrar(ok){ clearTimeout(reloj); terminar(ok); }
-
-  try {
-    fetch(url, { method:'GET' }).then(function(r){
-      DIAG.push('2. El buzón contestó con código ' + r.status + '.');
-      return r.text();
-    }).then(function(txt){
-      var dato = null;
-      try { dato = JSON.parse(txt); } catch(e){}
-      if (dato && dato.ok){
-        DATOS_REPORTE = dato;
-        if (dato.config) aplicarConfig(dato.config);
-        DIAG.push('3. Datos recibidos: ' + ((dato.sesiones||[]).length) + ' sesiones registradas.');
-        return cerrar(true);
-      }
-      if (dato && !dato.ok){
-        DIAG.push('3. El buzón contestó con un error: ' + dato.error);
-        return cerrar(false);
-      }
-      DIAG.push('3. Lo que llegó no son datos, parece una pantalla de Google. Casi siempre es porque la implementación pide iniciar sesión.');
-      porJsonp(cerrar);
-    })['catch'](function(e){
-      DIAG.push('2. La conexión directa fue rechazada por Google (' + (e && e.message ? e.message : 'sin detalle') + '). Esto pasa cuando la implementación NO está abierta a "Cualquier persona".');
-      porJsonp(cerrar);
-    });
-  } catch(e){
-    DIAG.push('2. No se pudo ni intentar la conexión directa.');
-    porJsonp(cerrar);
-  }
-}
-
-function porJsonp(cerrar){
-  DIAG.push('4. Intentando por el camino alterno…');
-  var manejador = 'repTP' + Date.now().toString(36);
-  var contesto = false;
-  window[manejador] = function(resp){
-    contesto = true;
-    if (resp && resp.ok){
-      DATOS_REPORTE = resp;
-      if (resp.config) aplicarConfig(resp.config);
-      DIAG.push('5. El camino alterno sí funcionó.');
-      return cerrar(true);
-    }
-    DIAG.push('5. El camino alterno contestó, pero sin datos válidos.');
-    cerrar(false);
-  };
-  var sc = document.createElement('script');
-  sc.src = BUZON + '?fn=todo&t=' + Date.now() + '&callback=' + manejador;
-  sc.onerror = function(){
-    if (!contesto){ DIAG.push('5. El camino alterno tampoco cargó.'); cerrar(false); }
-  };
-  document.head.appendChild(sc);
-  setTimeout(function(){
-    if (!contesto){ DIAG.push('5. El camino alterno no contestó a tiempo.'); cerrar(false); }
-  }, 15000);
+  llamarBackend({accion:'reporteRepasa', token:TOKEN}, 25).then(function(r){
+    if (!r || !r.ok){ return alTerminar(false); }
+    DATOS_REPORTE = r;
+    if (r.config) aplicarConfig(r.config);
+    alTerminar(true);
+  })['catch'](function(){ alTerminar(false); });
 }
 
 /* ADV[numero][temaId] = {tarjetas:n, preguntas:n, bien:n} */
@@ -2058,18 +1987,10 @@ function alCambiarVisibilidad(){
 }
 
 function bajarConfig(){
-  var manejador = 'cfgTP' + Date.now().toString(36);
-  var listo = false;
-  window[manejador] = function(resp){
-    listo = true;
+  llamarBackend({accion:'configRepasa', token:TOKEN}, 15).then(function(resp){
     if (resp && resp.ok && resp.config) aplicarConfig(resp.config);
-    try { delete window[manejador]; } catch(e){ window[manejador] = null; }
     if (VISTA === 'menu' && USUARIO) pintarMenu();
-  };
-  var sc = document.createElement('script');
-  sc.src = BUZON + '?fn=config&t=' + Date.now() + '&callback=' + manejador;
-  sc.onerror = function(){ listo = true; };
-  document.head.appendChild(sc);
+  })['catch'](function(){});
 }
 
 function arrancar(){
