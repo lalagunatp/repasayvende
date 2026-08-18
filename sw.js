@@ -3,7 +3,7 @@
    subiendo el número de CACHE (v1 → v2 → v3…) para que los
    celulares que ya la tienen instalada reciban la versión nueva. */
 
-var CACHE = 'tp-repasa-v7';
+var CACHE = 'tp-repasa-v8';
 var ARCHIVOS = [
   './',
   './index.html',
