@@ -62,10 +62,26 @@ header{background:var(--tinta);color:#fff;padding:calc(12px + env(safe-area-inse
 .datos .fila:last-child{border-bottom:0}
 .datos .et{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);flex:none}
 .datos .va{font-size:18px;font-weight:700;text-align:right}
-input[type=text]{width:100%;padding:16px;font-size:22px;font-weight:700;border:2px solid var(--borde);
-  border-radius:14px;font-family:inherit;text-align:center;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+input[type=text],input[type=password]{width:100%;padding:16px;font-size:22px;font-weight:700;border:2px solid var(--borde);
+  border-radius:14px;font-family:inherit;text-align:center;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
+  background:#fff;color:var(--tinta);-webkit-appearance:none;appearance:none}
+input[type=text]:focus,input[type=password]:focus{outline:none;border-color:var(--tinta2);box-shadow:0 0 0 4px rgba(22,64,79,.10)}
 .aviso{font-size:15px;color:var(--gris);margin-top:10px}
 .error{color:var(--acento);font-weight:700}
+
+/* ---- PIN: casillas segmentadas, un dígito por casilla ---- */
+.pin-cabeza{display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gris);margin-bottom:14px}
+.pin-cabeza-sub{margin-top:22px}
+.pin-ico{font-size:17px}
+.pin-boxes{display:flex;gap:10px;justify-content:center;margin-bottom:18px}
+.pin-box{width:100%;max-width:58px;aspect-ratio:1/1;padding:0;margin:0;
+  font-size:26px;font-weight:800;text-align:center;letter-spacing:0;text-transform:none;
+  border:2px solid var(--borde);border-radius:14px;background:#fff;color:var(--tinta);
+  transition:border-color .15s ease,box-shadow .15s ease,transform .1s ease}
+.pin-box:focus{outline:none;border-color:var(--acento);box-shadow:0 0 0 4px rgba(232,65,45,.12)}
+.pin-box.lleno{border-color:var(--tinta2)}
+.pin-box::-ms-reveal{display:none}
 
 /* ---- Tarjetas de menú ---- */
 .opcion-modo{background:#fff;border:2px solid var(--borde);border-radius:18px;padding:18px;margin-bottom:14px;
@@ -193,21 +209,34 @@ a.opcion-modo{text-decoration:none;color:inherit}
     </div>
 
     <div id="pasoPin" class="oculto">
-      <input type="password" id="pinActual" inputmode="numeric" autocomplete="off" maxlength="4"
-             placeholder="•••• PIN" aria-label="Tu PIN">
+      <div class="pin-cabeza"><span class="pin-ico">🔒</span><span>Escribe tu PIN</span></div>
+      <div class="pin-boxes" id="cajaPinActual" role="group" aria-label="Tu PIN">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+      </div>
       <button class="btn" id="btnEntrarPin">Entrar</button>
-      <button class="btn sec" id="btnCambiarNumero" style="margin-top:8px">Usar otro número</button>
+      <button class="btn sec" id="btnCambiarNumero">Usar otro número</button>
     </div>
 
     <div id="pasoNuevoPin" class="oculto">
-      <label for="pinNuevo1" style="display:block;font-size:14px;font-weight:700;color:var(--gris);margin-bottom:6px">Crea tu PIN personal (4 dígitos)</label>
-      <input type="password" id="pinNuevo1" inputmode="numeric" autocomplete="off" maxlength="4"
-             placeholder="••••" aria-label="PIN nuevo">
-      <label for="pinNuevo2" style="display:block;font-size:14px;font-weight:700;color:var(--gris);margin:10px 0 6px">Confírmalo</label>
-      <input type="password" id="pinNuevo2" inputmode="numeric" autocomplete="off" maxlength="4"
-             placeholder="••••" aria-label="Confirmar PIN nuevo">
+      <div class="pin-cabeza"><span class="pin-ico">✨</span><span>Crea tu PIN personal</span></div>
+      <div class="pin-boxes" id="cajaPinNuevo1" role="group" aria-label="PIN nuevo">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+      </div>
+      <div class="pin-cabeza pin-cabeza-sub"><span>Confírmalo</span></div>
+      <div class="pin-boxes" id="cajaPinNuevo2" role="group" aria-label="Confirmar PIN nuevo">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+        <input type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" class="pin-box">
+      </div>
       <button class="btn" id="btnGuardarPin">Guardar mi PIN</button>
-      <p class="pieMando" style="margin-top:10px">Debe ser distinto a tu número de empleado y al PIN precargado, sin dígitos repetidos ni consecutivos (ej. 1234).</p>
+      <p class="pieMando">Debe ser distinto a tu número de empleado y al PIN precargado, sin dígitos repetidos ni consecutivos (ej. 1234).</p>
     </div>
 
     <div class="aviso" id="avisoAcceso"></div>
@@ -1000,15 +1029,58 @@ function cerrarSesion(){
    ===================================================================== */
 var NUMERO_TEMP = '';
 
+/* Casillas de PIN segmentadas: una por dígito, con avance automático,
+   retroceso con Backspace, y pegar el PIN completo de un jalón. */
+function pinBoxes(idGrupo){
+  var inputs = $(idGrupo).querySelectorAll('.pin-box');
+  for (var i=0;i<inputs.length;i++){
+    (function(i){
+      inputs[i].addEventListener('input', function(){
+        this.value = this.value.replace(/\D/g,'').slice(0,1);
+        this.classList.toggle('lleno', !!this.value);
+        if (this.value && inputs[i+1]) inputs[i+1].focus();
+        if (this.value && i === inputs.length-1) grupo.alCompletar();
+      });
+      inputs[i].addEventListener('keydown', function(e){
+        if (e.key === 'Backspace' && !this.value && inputs[i-1]) inputs[i-1].focus();
+        if (e.key === 'Enter') grupo.alCompletar();
+      });
+      inputs[i].addEventListener('paste', function(e){
+        var texto = ((e.clipboardData || window.clipboardData).getData('text') || '').replace(/\D/g,'');
+        if (!texto) return;
+        e.preventDefault();
+        for (var k=0;k<inputs.length;k++){ inputs[k].value = texto[k] || ''; inputs[k].classList.toggle('lleno', !!texto[k]); }
+        var ultimo = Math.min(texto.length, inputs.length) - 1;
+        if (ultimo >= 0) inputs[ultimo].focus();
+        if (texto.length >= inputs.length) grupo.alCompletar();
+      });
+    })(i);
+  }
+  var grupo = {
+    valor: function(){ var v=''; for (var i=0;i<inputs.length;i++) v += inputs[i].value; return v; },
+    limpiar: function(){ for (var i=0;i<inputs.length;i++){ inputs[i].value=''; inputs[i].classList.remove('lleno'); } },
+    enfocar: function(){ if (inputs[0]) inputs[0].focus(); },
+    alCompletar: function(){}   // se sobreescribe según la casilla
+  };
+  return grupo;
+}
+
+var PB_ACTUAL, PB_NUEVO1, PB_NUEVO2;
+
 function iniciarAcceso(){
   $('avisoAcceso').textContent = 'Solo entra el personal con acceso a la carpeta de ventas.';
+  PB_ACTUAL = pinBoxes('cajaPinActual');
+  PB_NUEVO1 = pinBoxes('cajaPinNuevo1');
+  PB_NUEVO2 = pinBoxes('cajaPinNuevo2');
+  PB_ACTUAL.alCompletar = intentarEntrarPin;
+  PB_NUEVO1.alCompletar = function(){ PB_NUEVO2.enfocar(); };
+  PB_NUEVO2.alCompletar = guardarPinNuevo;
+
   $('btnSiguienteNumero').addEventListener('click', pedirPin);
   $('numero').addEventListener('keydown', function(e){ if (e.key === 'Enter') pedirPin(); });
   $('btnEntrarPin').addEventListener('click', intentarEntrarPin);
-  $('pinActual').addEventListener('keydown', function(e){ if (e.key === 'Enter') intentarEntrarPin(); });
   $('btnCambiarNumero').addEventListener('click', mostrarPasoNumero);
   $('btnGuardarPin').addEventListener('click', guardarPinNuevo);
-  $('pinNuevo2').addEventListener('keydown', function(e){ if (e.key === 'Enter') guardarPinNuevo(); });
 }
 
 function mostrarPasoNumero(){
@@ -1025,16 +1097,16 @@ function mostrarPasoPin(){
   $('pasoNuevoPin').classList.add('oculto');
   $('pasoPin').classList.remove('oculto');
   $('avisoAcceso').innerHTML = '';
-  $('pinActual').value = '';
-  $('pinActual').focus();
+  PB_ACTUAL.limpiar();
+  PB_ACTUAL.enfocar();
 }
 function mostrarPasoNuevoPin(){
   $('pasoNumero').classList.add('oculto');
   $('pasoPin').classList.add('oculto');
   $('pasoNuevoPin').classList.remove('oculto');
   $('avisoAcceso').innerHTML = '';
-  $('pinNuevo1').value = ''; $('pinNuevo2').value = '';
-  $('pinNuevo1').focus();
+  PB_NUEVO1.limpiar(); PB_NUEVO2.limpiar();
+  PB_NUEVO1.enfocar();
 }
 
 function pedirPin(){
@@ -1048,7 +1120,7 @@ function pedirPin(){
 }
 
 function intentarEntrarPin(){
-  var pin = String($('pinActual').value).trim();
+  var pin = PB_ACTUAL.valor();
   if (!/^\d{4}$/.test(pin)){
     $('avisoAcceso').innerHTML = '<span class="error">Escribe tu PIN de 4 dígitos.</span>';
     return;
@@ -1063,6 +1135,7 @@ function intentarEntrarPin(){
         pinIncorrecto: 'PIN incorrecto. Verifícalo con tu líder si no lo recuerdas.'
       }[r && r.error] || ((r && r.error) || 'No se pudo verificar tu acceso.');
       $('avisoAcceso').innerHTML = '<span class="error">' + msg + '</span>';
+      PB_ACTUAL.limpiar(); PB_ACTUAL.enfocar();
       return;
     }
     TOKEN = r.token;
@@ -1079,16 +1152,21 @@ function intentarEntrarPin(){
 }
 
 function guardarPinNuevo(){
-  var p1 = String($('pinNuevo1').value).trim(), p2 = String($('pinNuevo2').value).trim();
+  var p1 = PB_NUEVO1.valor(), p2 = PB_NUEVO2.valor();
+  if (!/^\d{4}$/.test(p1) || !/^\d{4}$/.test(p2)){
+    $('avisoAcceso').innerHTML = '<span class="error">Completa los dos PIN de 4 dígitos.</span>';
+    return;
+  }
   var err = pinInvalido(p1, NUMERO_TEMP);
-  if (err){ $('avisoAcceso').innerHTML = '<span class="error">' + esc(err) + '</span>'; return; }
-  if (p1 !== p2){ $('avisoAcceso').innerHTML = '<span class="error">Los dos PIN no coinciden.</span>'; return; }
+  if (err){ $('avisoAcceso').innerHTML = '<span class="error">' + esc(err) + '</span>'; PB_NUEVO1.limpiar(); PB_NUEVO2.limpiar(); PB_NUEVO1.enfocar(); return; }
+  if (p1 !== p2){ $('avisoAcceso').innerHTML = '<span class="error">Los dos PIN no coinciden.</span>'; PB_NUEVO2.limpiar(); PB_NUEVO2.enfocar(); return; }
   var btn = $('btnGuardarPin');
   btn.disabled = true; btn.textContent = 'Guardando…';
   llamarBackend({accion:'cambiarPin', token:TOKEN, pinNuevo:p1}, 20).then(function(r){
     btn.disabled = false; btn.textContent = 'Guardar mi PIN';
     if (!r || !r.ok){
       $('avisoAcceso').innerHTML = '<span class="error">' + esc((r && r.error) || 'No se pudo guardar tu PIN.') + '</span>';
+      PB_NUEVO1.limpiar(); PB_NUEVO2.limpiar(); PB_NUEVO1.enfocar();
       return;
     }
     TOKEN = r.token;
