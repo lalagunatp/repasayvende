@@ -284,10 +284,13 @@ var PIN_PRECARGADO = '8888';
       Al día siguiente del fin, el tema se oculta para todos MENOS para
       el DIRECTOR DISTRITAL, que lo ve con aviso para actualizarlo o quitarlo. */
 var VIGENCIAS = {
-  blacknut: '2026-09-30',
-  vsb:      '2026-07-31',
-  promos:   '2026-07-31',
-  tips:     '2026-08-31'
+  combo3:    '2026-10-31',
+  paramount: '2026-10-31',
+  blacknut:  '2026-09-30',
+  vsb:       '2026-10-15',
+  promos:    '2026-10-31',
+  tips:      '2026-10-31',
+  negpromos: '2026-10-15'
 };
 
 /* 2) PERMISOS: qué puestos pueden ver cada tema.
@@ -306,9 +309,18 @@ var PERMISOS = {
       La marca "nuevo" o "actualizado" se ve durante 15 días desde esa fecha
       y luego desaparece sola, sin que nadie tenga que quitarla a mano. */
 var NOVEDADES = {
-  tips:       { tipo:'nuevo',       fecha:'2026-08-17' },
-  anuncios:   { tipo:'nuevo',       fecha:'2026-08-17' },
-  comisiones: { tipo:'actualizado', fecha:'2026-08-17' }
+  combo3:     { tipo:'nuevo',       fecha:'2026-10-09' },
+  nfl:        { tipo:'nuevo',       fecha:'2026-10-09' },
+  paramount:  { tipo:'nuevo',       fecha:'2026-10-09' },
+  negpromos:  { tipo:'nuevo',       fecha:'2026-10-09' },
+  tips:       { tipo:'actualizado', fecha:'2026-10-09' },
+  planes:     { tipo:'actualizado', fecha:'2026-10-09' },
+  anuncios:   { tipo:'actualizado', fecha:'2026-10-09' },
+  reglas:     { tipo:'actualizado', fecha:'2026-10-09' },
+  vsb:        { tipo:'actualizado', fecha:'2026-10-09' },
+  promos:     { tipo:'actualizado', fecha:'2026-10-09' },
+  glosario:   { tipo:'actualizado', fecha:'2026-10-09' },
+  negocios:   { tipo:'actualizado', fecha:'2026-10-09' }
 };
 
 /* 4) Otras herramientas del equipo */
@@ -332,67 +344,189 @@ var PUESTOS_REPORTE = ['DIRECTOR DISTRITAL','LIDER DE VENTAS','LIDER VENTAS','CO
    ===================================================================== */
 var TEMAS = [
 {
- id:'negocios', nombre:'Totalplay Negocios', icono:'💼', pie:'Soluciones digitales, planes y restaurantes',
+ id:'combo3', nombre:'Combo 3 Apps · $209', icono:'🔥', pie:'Disney+, Apple TV y Amazon Prime · vigencia 31 oct 2026',
  tarjetas:[
-  {f:'¿Qué son las Soluciones Digitales?', d:'Herramientas que ya vienen incluidas en los planes de Negocios para vender, administrar y proteger el negocio. No son un adicional que se cobre aparte.'},
-  {f:'Enumera las Soluciones Digitales incluidas', d:'Líneas telefónicas · almacenamiento en la nube · facturación ilimitada · Aliado Digital · notas de remisión y gestión de ventas · página web y tienda en línea · Internet Seguro · WiFi Pro · Club WiFi Totalplay.'},
-  {f:'¿Qué es el Aliado Digital?', d:'Soporte técnico especializado y asesoría legal y contable, disponible las 24 horas los 7 días.'},
-  {f:'¿Qué es Internet Seguro?', d:'Una capa de protección que cuida la información y los dispositivos del negocio contra fraudes y virus.'},
-  {f:'¿Qué resuelve Factura Total?', d:'Facturas ilimitadas, recibos de nómina y reportes mensuales, sin contratar otro sistema.'},
-  {f:'¿Qué le da la página web y tienda en línea?', d:'Un sitio profesional personalizado para que su negocio llegue a más clientes y pueda vender por internet.'},
-  {f:'Dos soluciones que casi nadie menciona y venden solas', d:'Google Business Profile, para que el negocio aparezca en el mapa, y WhatsApp Business, para atender clientes por mensajería. En los dos se da asesoría para configurarlos.'},
-  {f:'Los planes de Negocios y sus megas', d:'Elemental 60 · Esencial 200 · Dinámico 300 · Emprendedor 500 · Profesional 800 · Experto 1,000 megas.'},
-  {f:'¿Para qué tipo de negocio es cada plan?', d:'Elemental: abarrotes, papelerías y ferreterías · Esencial: pastelerías, fondas y talleres · Dinámico: cafeterías, veterinarias y estéticas · Emprendedor: consultorios dentales, gimnasios y bares · Profesional: escuelas, restaurantes y fotografía · Experto: centros de salud, despachos y oficinas.'},
-  {f:'¿Cuántos dispositivos conecta cada plan?', d:'Elemental 3 · Esencial 4 · Dinámico 6 · Emprendedor 10 · Profesional y Experto 15.'},
-  {f:'¿Desde cuándo recibe el descuento por lealtad un negocio?', d:'A partir del 6º mes, y es de por vida.'},
-  {f:'¿Qué le ofreces a un restaurante con la manteleta?', d:'Afiliarse a Totalplay Restaurantes: cero comisión por afiliación, la comisión más baja del mercado, mercado cautivo de clientes Totalplay y publicidad dentro del ecosistema digital de Totalplay.'},
-  {f:'¿Qué gana el restaurante al afiliarse?', d:'Precio VIP el primer mes del plan de Negocios y, por 3 meses, $100 de descuento en planes Internet + TV o $50 en planes Internet.'},
-  {f:'El restaurante afiliado puede escoger entre…', d:'Página web gratis por 6 meses (a partir del mes 7 cuesta $160) o el Administrador para Restaurantes por 6 meses.'},
-  {f:'¿Qué hace el Administrador para Restaurantes?', d:'Controla inventarios, ventas, recetas y la operación general del restaurante desde una sola plataforma.'}
+  {f:'¿Qué es el Combo Especial 3 Apps?', d:'Disney+ Estándar con anuncios, Apple TV y Amazon Prime por solo $209 al mes. "Triple poder para tu venta". Vigente del 1 al 31 de octubre de 2026, alcance nacional.'},
+  {f:'¿A quién le aplica el Combo 3 Apps?', d:'Clientes nuevos y actuales, en planes de 100 a 10,000 megas, tanto TV + Internet como solo Internet.'},
+  {f:'¿Cuánto pagaría el cliente por separado?', d:'Disney+ con anuncios $149 + Apple TV+ $199 + Amazon Prime $99 = $447 al mes. Con el combo paga $209: ahorra $238 cada mes (casi 53%) y $2,856 al año.'},
+  {f:'¿Con qué ofertas SÍ aplica el combo?', d:'Oferta base, ofertas con Netflix (Estándar con anuncios, Estándar 2 pantallas y Premium), con HBO Max Básico con anuncios y con oferta VSB incluido.'},
+  {f:'¿Con qué ofertas NO aplica el combo?', d:'En ofertas que ya traen Amazon incluido, Disney+ Estándar con anuncios o Apple TV, ni en Entretenimiento Intermedio o Avanzado: el cliente ya lleva esas apps.'},
+  {f:'¿Con qué convive y con qué no?', d:'Sí convive con Más Apps de Universal+, Netflix y HBO Max, lealtad, portabilidad, adicionales, Nuevo Totalplay TV, Descuento Especial 5 meses, Precio Especial y segmentadas. NO convive con Más Apps de Disney+ y Apple TV.'},
+  {f:'¿El cliente puede cancelar o cambiar una sola app del combo?', d:'No. Las 3 apps van juntas. La cancelación del combo completo se hace por el Centro de Soluciones. Avísaselo antes de cerrar.'},
+  {f:'Así lo ofreces en 3 pasos', d:'1) Pregunta: "¿Qué te gusta ver en casa?". 2) Haz la cuenta: "Por separado pagarías $447; conmigo te llevas las tres por $209". 3) Cierra: "Son $238 de ahorro cada mes, ¿te lo dejo agregado a tu plan?"'},
+  {f:'¿Qué trae Amazon Prime?', d:'Originales de Prime Video en 4K, hasta 3 dispositivos al mismo tiempo, descargas y los beneficios de Amazon Prime (envíos, Amazon Music y Twitch). En Totalplay TV está en el menú Streaming o en los canales 210 y 482. No viene incluido en los planes: se ofrece con el combo.'}
  ],
  preguntas:[
-  {p:'¿Cuántos megas trae el plan Elemental?', o:['60','100','200','300'], r:0,
-   x:'Elemental son 60 megas, ideal para tiendas de abarrotes, papelerías o ferreterías.'},
-  {p:'¿Cuál es el plan de Negocios de 1,000 megas?', o:['Emprendedor','Profesional','Experto','Dinámico'], r:2,
-   x:'Experto es el de 1,000 megas. Profesional es el de 800.'},
-  {p:'El Aliado Digital incluye…', o:['Solo soporte técnico','Soporte técnico y asesoría legal y contable 24/7','Una línea telefónica extra','Publicidad en redes'], r:1,
-   x:'Trae soporte técnico especializado más asesoría legal y contable las 24 horas.'},
-  {p:'¿Cuántos dispositivos conecta el plan Emprendedor?', o:['4','6','10','15'], r:2,
-   x:'Emprendedor son 500 megas y conecta hasta 10 dispositivos.'},
-  {p:'¿Cuánto cuesta afiliarse a Totalplay Restaurantes?', o:['$160 al mes','Una comisión del 20%','Nada, cero comisión por afiliación','Un mes de renta'], r:2,
-   x:'La afiliación no cuesta y además maneja la comisión más baja del mercado.'},
-  {p:'Las Soluciones Digitales se le cobran al negocio…', o:['Aparte, cada una','No, vienen incluidas en el plan','Solo en el plan Experto','A partir del 6º mes'], r:1,
-   x:'Vienen incluidas en los planes de Negocios; no son un adicional.'},
-  {p:'¿Desde qué mes entra el descuento por lealtad en Negocios?', o:['Del 1º','Del 3º','Del 6º','Del 12º'], r:2,
-   x:'A partir del 6º mes, y es de por vida.'}
+  {p:'¿Qué apps trae el Combo Especial 3 Apps?', o:['Disney+, Apple TV y Amazon Prime','Netflix, Disney+ y HBO Max','Netflix, Apple TV y Universal+','Disney+, Universal+ y Amazon Prime'], r:0,
+   x:'Disney+ Estándar con anuncios, Apple TV y Amazon Prime.'},
+  {p:'¿Cuánto cuesta el combo al mes?', o:['$149','$209','$299','$447'], r:1,
+   x:'$209 al mes. Por separado serían $447.'},
+  {p:'¿Cuánto se ahorra el cliente cada mes con el combo?', o:['$138','$209','$238','$447'], r:2,
+   x:'$447 − $209 = $238 al mes, casi 53%. En un año son $2,856.'},
+  {p:'Un cliente cuyo plan ya trae Disney+ Estándar con anuncios, ¿puede llevar el combo?', o:['Sí, siempre','No, porque ya lleva Disney+','Solo si es cliente nuevo','Solo con TV'], r:1,
+   x:'No aplica en ofertas que ya traen Amazon, Disney+ con anuncios o Apple TV, ni convive con Más Apps de Disney+ y Apple TV.'},
+  {p:'Un cliente actual con 100 megas solo Internet, ¿puede contratar el combo?', o:['No, solo clientes nuevos','No, solo desde 500 megas','Sí: aplica a nuevos y actuales, de 100 a 10,000 megas, con o sin TV','Solo si agrega TV'], r:2,
+   x:'Aplica para clientes nuevos y actuales en planes de 100 a 10,000 megas, TV + Internet y solo Internet.'},
+  {p:'El cliente quiere quitar solo Amazon Prime del combo…', o:['Se quita desde la app','No se puede: las 3 van juntas y el combo se cancela en Centro de Soluciones','Llama a Amazon','Solo después de 3 meses'], r:1,
+   x:'Las 3 apps van juntas; no se cancela ni cambia una sola.'}
  ]
 },
 {
- id:'tips', nombre:'Vende más TIPs', icono:'🚀', pie:'Argumentos, speech y comparativos · vigencia 31 ago 2026',
+ id:'nfl', nombre:'NFL Game Pass en DAZN', icono:'🏈', pie:'+$100 al mes · disponible desde el 8 sep 2026',
  tarjetas:[
-  {f:'¿Por qué siempre conviene ofrecer un plan con TV en vez de solo Internet?', d:'Porque no solo vendes internet: entregas una experiencia completa de entretenimiento para toda la familia. Y de paso, tu comisión también crece.'},
-  {f:'¿Qué gana el cliente con TV en los planes de 150 y 250 Megas?', d:'Netflix con anuncios, Universal+ con anuncios y Apple TV durante 5 meses sin costo, en vez de solo 3 meses como en los planes sin TV.'},
-  {f:'Argumento ganador para convertir una venta de solo Internet en una con TV', d:'"Por solo $139 adicionales puedes llevar internet, TV en vivo y hasta 5 meses de tus apps favoritas sin costo, ¿por qué conformarte solo con internet?"'},
-  {f:'¿Cuánto le cuesta al cliente Netflix, Universal+ y Apple TV si los contrata por separado?', d:'Netflix $110 + Universal+ $129 + Apple TV $139 = $378 al mes en total.'},
-  {f:'¿Qué pasa cuando termina la promoción de apps en el plan de 150 Megas con TV?', d:'La mensualidad pasa de $599 a $947 (se suma el costo de las 3 apps y se resta el descuento por lealtad de $30).'},
-  {f:'¿Por qué el plan de 350 Megas es el que "no da sorpresas"?', d:'Porque las apps van incluidas de por vida: $799 con TV o $660 sin TV, y con el descuento por lealtad baja a $759 o $630, sin que suba después.'},
-  {f:'Con TV, ¿cuánto paga de más al mes un cliente de 150 Megas frente a uno de 350 Megas, ya sin promoción?', d:'$188 al mes más caro que si hubiera contratado 350 Megas desde el inicio.'},
-  {f:'Sin TV, ¿cuánto paga de más un cliente de 150 Megas frente a uno de 350 Megas?', d:'En los meses 4 y 5 (cuando ya se le acabaron las apps gratis) paga $179 más, y del mes 6 en adelante la diferencia sube a $189.'},
-  {f:'Tip para vender apps con más confianza', d:'No digas solo "tiene Netflix". Menciona un título concreto que esté de estreno — eso genera muchísima más confianza y cierra la venta más rápido.'}
+  {f:'¿Qué es NFL Game Pass en DAZN en Totalplay?', d:'Toda la NFL por solo $100 adicionales al mes sobre el precio del plan. Disponible en Totalplay desde el 8 de septiembre de 2026.'},
+  {f:'¿Cuánto se ahorra el cliente?', d:'Contratándolo directo cuesta MX$3,100 por temporada. Con Totalplay son $100 al mes sin plazo mínimo de permanencia: ahorra hasta $2,500.'},
+  {f:'¿Qué incluye NFL Game Pass?', d:'Todos los partidos en vivo y bajo demanda, NFL RedZone, Playoffs y Super Bowl LXI. En español y con audio original, Full HD (1080p), hasta 2 dispositivos al mismo tiempo desde una misma ubicación, y descargas.'},
+  {f:'¿Qué contenido extra trae?', d:'Documentales como Hard Knocks y Mic’d Up, análisis en Coaches Film, programación de NFL Network y repeticiones condensadas en 40 minutos. Además DAZN Free: resúmenes, canales como FIFA+ y algunas peleas gratuitas.'},
+  {f:'¿Qué NO incluye?', d:'Los eventos premium de DAZN (grandes carteleras de boxeo, MMA o rallies). Para eso necesitaría una suscripción regular de DAZN aparte.'},
+  {f:'"Ya tengo DAZN, ¿ya incluye la NFL?"', d:'No. En México la suscripción general de DAZN no incluye la NFL; se contrata por separado o como complemento. Es tu oportunidad de venta.'},
+  {f:'"¿Lo puedo ver en mi decodificador Totalplay TV?"', d:'Por el momento NO. Desde Totalplay TV solo está disponible la compra, no la reproducción, hasta nuevo aviso. Díselo claro desde el inicio para evitar quejas.'},
+  {f:'¿En qué planes y cómo se vende?', d:'Planes de 150 a 10,000 megas, TV + Internet y solo Internet. Solo en contratación en Bundle, no a la carta. Convive con los bundles de Netflix, Amazon, Disney+ con anuncios, HBO Max Básico con anuncios y Apple TV.'},
+  {f:'Morosidad y cancelación', d:'Si la cuenta entra en morosidad se suspende y se reactiva sola al ponerse al corriente. Se cancela solo por Centro de Soluciones. Si se cancela la cuenta de Totalplay, pierde el acceso.'},
+  {f:'¿Dónde se contrata?', d:'Venta nueva: Punto de Venta, Cambaceo, TLMK y Servicio a Clientes una vez instalado. Postventa: decodificador (STB), App Totalplay, Mi Totalplay y Servicio a Clientes.'},
+  {f:'¿Cuánto paga con NFL un cliente de 500 megas?', d:'Con TV: $1,099 al mes pronto pago ($999 + $100). Solo Internet: $960 ($860 + $100).'}
  ],
  preguntas:[
-  {p:'¿Cuánto suman Netflix, Universal+ y Apple TV si el cliente los paga por separado?', o:['$278','$328','$378','$428'], r:2,
-   x:'$110 + $129 + $139 = $378 al mes.'},
+  {p:'¿Cuánto paga de más al mes el cliente por NFL Game Pass en DAZN?', o:['$69','$100','$149','$3,100'], r:1,
+   x:'$100 adicionales al precio de su plan.'},
+  {p:'¿Hasta cuánto se ahorra frente a contratarlo directo?', o:['$600','$1,500','$2,500','$3,100'], r:2,
+   x:'Directo cuesta $3,100 por temporada; con Totalplay ahorra hasta $2,500.'},
+  {p:'¿Puede el cliente ver los partidos en su decodificador Totalplay TV hoy?', o:['Sí, en todos','No: desde ahí por ahora solo se compra, no se reproduce','Solo en VSB','Solo en canales 4K'], r:1,
+   x:'Por el momento solo la compra está disponible desde Totalplay TV, no la reproducción.'},
+  {p:'¿Incluye las carteleras premium de boxeo y MMA de DAZN?', o:['Sí, todo DAZN','No: incluye la NFL y DAZN Free','Solo el boxeo','Solo con 1,000 megas'], r:1,
+   x:'Los eventos premium de DAZN se pagan aparte.'},
+  {p:'¿En cuántos dispositivos a la vez se puede ver?', o:['1','Hasta 2, desde una misma ubicación','4','Ilimitados'], r:1,
+   x:'Hasta 2 dispositivos al mismo tiempo, desde una misma ubicación.'},
+  {p:'¿Tiene plazo forzoso?', o:['12 meses','Toda la temporada','No tiene plazo mínimo','6 meses'], r:2,
+   x:'Con Totalplay no hay plazo mínimo de permanencia.'},
+  {p:'¿Cómo cancela el cliente NFL Game Pass?', o:['Desde la app de DAZN','Solo por Centro de Soluciones','Con su vendedor','No se puede cancelar'], r:1,
+   x:'La cancelación solo se hace por medio del Centro de Soluciones.'}
+ ]
+},
+{
+ id:'paramount', nombre:'UFC y ZUFFA · Paramount+', icono:'🥊', pie:'Paramount+ a $119 · vigencia 31 oct 2026',
+ tarjetas:[
+  {f:'¿Cuál es la promoción de Paramount+?', d:'Paramount+ por $119 al mes en lugar de $149: $30 de descuento de manera indefinida. UFC y ZUFFA están en exclusiva por Paramount+. Vigente del 1 al 31 de octubre de 2026.'},
+  {f:'¿En qué planes aplica?', d:'Planes de 150 a 500 megas, TV + Internet y solo Internet. Clientes nuevos y actuales.'},
+  {f:'¿En qué ofertas aplica?', d:'Oferta base, Match (Netflix con anuncios, Estándar y Premium), Unbox (Amazon), Disney+ con anuncios, HBO Max Básico con anuncios, Apple TV y NFL Game Pass en DAZN.'},
+  {f:'¿Con qué convive?', d:'Más Apps, Descuento Especial 5 meses, Precio Especial, lealtad, portabilidad, segmentadas, Nuevo Totalplay TV incluido y adicionales instalables y de contenido.'},
+  {f:'¿Cuándo pierde el cliente el descuento?', d:'Si cambia a un plan donde no es elegible (por ejemplo, sube a 1,000 megas o más) o si cancela el servicio. Explícaselo antes de cerrar.'},
+  {f:'¿Qué pasa con Paramount+ si el cliente se atrasa en su pago?', d:'Se suspende mientras la cuenta esté en morosidad y se reactiva sola al ponerse al corriente. Si la cuenta se cancela, pierde el acceso.'},
+  {f:'La pelea en 3 rounds', d:'El gancho: "¿Te gustan las peleas?" (UFC y ZUFFA en exclusiva). El argumento: $30 de ahorro al mes, indefinido. El cierre: "$119 al mes, ¿te lo sumo a tu plan desde hoy?"'},
+  {f:'¿Qué es ZUFFA?', d:'La empresa creadora y dueña de la UFC (nació en 2001 con Lorenzo y Frank Fertitta y Dana White). "Zuffa" significa "pelea" en italiano. Hoy es parte de TKO Group (UFC y WWE) y ahora tiene Zuffa Boxing, para boxeo profesional.'},
+  {f:'Cartelera de UFC en octubre', d:'3 oct: UFC 332, Figueiredo vs Talbott y Walker vs Parkin · 17 oct: UFC Fight Night, Buckley vs Malott · 24 oct: UFC 333, Volkanovski vs Evloev, por el título de peso pluma.'}
+ ],
+ preguntas:[
+  {p:'¿Cuánto paga el cliente por Paramount+ con la promoción?', o:['$99','$119','$149','$179'], r:1,
+   x:'$119 al mes, en lugar del precio regular de $149.'},
+  {p:'¿Por cuánto tiempo dura el descuento de $30?', o:['3 meses','6 meses','De manera indefinida, mientras siga en un plan elegible','Solo octubre'], r:2,
+   x:'Es indefinido mientras siga en un plan de 150 a 500 megas y no cancele.'},
+  {p:'¿En qué planes aplica la promo de Paramount+?', o:['100 a 350 megas','150 a 500 megas','500 a 10,000 megas','Todos'], r:1,
+   x:'De 150 a 500 megas, con o sin TV.'},
+  {p:'Un cliente con Paramount+ en promoción sube su plan a 1,000 megas…', o:['Conserva el descuento','Pierde la promoción porque ya no es plan elegible','Le dan Paramount+ gratis','Le suben a $139'], r:1,
+   x:'Al cambiar a un plan no elegible pierde la promoción.'},
+  {p:'¿Qué significa "Zuffa"?', o:['Campeón','Pelea','Octágono','Golpe'], r:1,
+   x:'Viene del italiano y significa "pelea" o "riña".'}
+ ]
+},
+{
+ id:'tips', nombre:'Vende más TIPs', icono:'🚀', pie:'Argumentos, speech y comparativos · vigencia 31 oct 2026',
+ tarjetas:[
+  {f:'¿Por qué siempre conviene ofrecer un plan con TV en vez de solo Internet?', d:'Porque no solo vendes internet: entregas una experiencia completa de entretenimiento para toda la familia. El cliente percibe más valor, la decisión es más sencilla y tu comisión también crece.'},
+  {f:'¿Qué gana el cliente con TV en los planes de 150 y 250 Megas?', d:'Netflix con anuncios, Disney+ con anuncios y Apple TV durante 5 meses sin costo, en vez de solo 3 meses como en los planes sin TV.'},
+  {f:'Argumento ganador para convertir una venta de solo Internet en una con TV', d:'"Por solo $139 adicionales puedes llevar internet, TV en vivo y hasta 5 meses de tus apps favoritas sin costo, ¿por qué conformarte solo con internet?"'},
+  {f:'¿Cuánto le cuestan al cliente Netflix, Disney+ y Apple TV por separado?', d:'Netflix $110 + Disney+ $149 + Apple TV $139 = $398 al mes en total.'},
+  {f:'¿Cuánto paga al terminar la promoción un cliente de 150 o 250 Megas con TV que se queda con sus 3 apps?', d:'150 Megas: de $599 pasa a $967. 250 Megas: de $699 pasa a $1,067. Se suman $398 de apps y se resta el descuento por lealtad de $30.'},
+  {f:'¿Por qué el plan de 350 Megas es el que "no da sorpresas"?', d:'Porque Netflix y Apple TV van incluidos de por vida, y Disney+ los primeros meses (5 con TV, 3 sin TV). Con TV además trae el VSB incluido. Con lealtad: $759 con TV o $630 sin TV ($908 y $779 si se queda con Disney+).'},
+  {f:'Con TV, ¿cuánto paga de más un cliente de 150 Megas frente a uno de 350 Megas, ya sin promoción?', d:'$59 más al mes ($967 contra $908 del 350 con Disney+), y con menos de la mitad de velocidad.'},
+  {f:'Sin TV, ¿cuánto paga de más un cliente de 150 Megas frente a uno de 350 Megas?', d:'En los meses 4 y 5 paga $49 más ($858 contra $809), y del mes 6 en adelante la diferencia sube a $59 ($838 contra $779).'},
+  {f:'Si el cliente duda entre 250 y 350 Megas…', d:'Del mes 6 en adelante, con sus 3 apps, el de 250 paga $1,067 con TV y $938 sin TV; el de 350, $908 y $779. Son $159 más al mes por menos velocidad.'},
+  {f:'Tip para vender apps con más confianza', d:'No digas solo "tiene Netflix". Menciona un título concreto: "el 9 de octubre sale Animales en Netflix" o "ya está The Mandalorian and Grogu en Disney+". Eso genera más confianza y cierra la venta más rápido.'}
+ ],
+ preguntas:[
+  {p:'¿Cuánto suman Netflix, Disney+ y Apple TV si el cliente los paga por separado?', o:['$378','$398','$447','$428'], r:1,
+   x:'$110 + $149 + $139 = $398 al mes.'},
   {p:'¿Cuál es el argumento ganador para vender un plan con TV?', o:['"Es más barato que Netflix"','"Por $139 adicionales llevas internet, TV y hasta 5 meses de apps sin costo"','"La TV es gratis siempre"','"No hay diferencia con solo Internet"'], r:1,
    x:'Ese es el speech que convierte una venta de solo internet en una con TV.'},
   {p:'¿Cuánto tiempo disfruta gratis las apps un cliente con TV en el plan de 150 o 250 Megas?', o:['3 meses','5 meses','6 meses','12 meses'], r:1,
    x:'5 meses con TV, contra solo 3 meses en los planes sin TV.'},
-  {p:'¿Por qué el plan de 350 Megas no le da sorpresas al cliente?', o:['Porque nunca sube de precio nada','Porque las apps van incluidas de por vida','Porque no aplica el descuento por lealtad','Porque no incluye TV'], r:1,
-   x:'Las apps quedan incluidas de por vida, sin que la mensualidad brinque después de unos meses.'},
-  {p:'Con TV, ¿cuánto paga de más al mes un cliente de 150 Megas frente a uno de 350 Megas, una vez que termina la promoción?', o:['$88','$139','$188','$258'], r:2,
-   x:'$188 al mes más, por eso conviene vender la mayor velocidad desde el arranque.'},
+  {p:'En el plan de 350 Megas, ¿qué apps van incluidas de por vida?', o:['Las tres','Netflix y Apple TV','Solo Disney+','Ninguna'], r:1,
+   x:'Netflix y Apple TV de por vida; Disney+ solo los primeros 5 meses con TV o 3 sin TV.'},
+  {p:'Un cliente de 150 Megas con TV que se queda con sus 3 apps, ¿cuánto paga al terminar la promoción?', o:['$759','$908','$967','$1,067'], r:2,
+   x:'$599 + $398 de apps − $30 de lealtad = $967.'},
+  {p:'Ya sin promoción y con sus 3 apps, ¿cuánto paga de más al mes el de 250 Megas frente al de 350?', o:['$59','$100','$159','$188'], r:2,
+   x:'$159 más al mes, y con menos velocidad.'},
   {p:'Según el tip para vender apps, ¿cómo generas más confianza con el cliente?', o:['Diciendo solo el nombre de la app','Mencionando un título concreto en estreno','Enseñando el catálogo completo','Comparando precios con la competencia'], r:1,
    x:'Mencionar un título concreto de estreno cierra la venta más rápido que solo decir "tiene Netflix".'}
+ ]
+},
+{
+ id:'planes', nombre:'Planes y Megas', icono:'📶', pie:'Oferta residencial · "La Diversión Ya Está Incluida"',
+ tarjetas:[
+  {f:'Precios TV + Internet, de memoria', d:'150 → $599 · 250 → $699 · 350 → $799 · 500 → $999 · 1,000 → $1,200 · 5,000 → $2,499 · 10,000 → $2,999'},
+  {f:'Precios solo Internet, de memoria', d:'150 → $460 · 250 → $560 · 350 → $660 · 500 → $860 · 1,000 → $1,000 · 5,000 → $1,999 · 10,000 → $2,499'},
+  {f:'¿En qué versión vienen las apps de los planes?', d:'En TODOS los planes van con anuncios: Netflix y Disney+ Estándar con anuncios, HBO Max Básico con anuncios. Ya ningún plan las trae sin anuncios.'},
+  {f:'¿Qué apps traen los planes de 150 y 250 Megas?', d:'Netflix, Disney+ y Apple TV, solo temporales: 5 meses con TV y 3 meses sin TV.'},
+  {f:'¿Qué apps trae el plan de 350 Megas?', d:'Netflix y Apple TV incluidos de forma indefinida, y Disney+ por 5 meses con TV o 3 meses sin TV. Con TV, además, el VSB va como TV principal sin costo.'},
+  {f:'¿Qué apps trae el plan de 500 Megas?', d:'Con TV: Netflix, Universal+, Apple TV y Disney+. Solo Internet: Netflix, Disney+ y Apple TV. Ninguno de los dos trae HBO Max.'},
+  {f:'¿Qué apps traen los planes de 1,000, 5,000 y 10,000 Megas?', d:'Con TV: Netflix, Apple TV, HBO Max, Disney+ y Universal+. Solo Internet: las mismas, menos Universal+.'},
+  {f:'¿Desde qué plan Disney+ queda incluido sin fecha de término?', d:'Desde 500 Megas. En 150, 250 y 350 va por 5 meses con TV y 3 sin TV.'},
+  {f:'¿Desde qué plan se incluye HBO Max?', d:'Desde 1,000 Megas, con TV y sin TV.'},
+  {f:'¿En qué planes viene Universal+?', d:'Solo en planes CON TV desde 500 Megas. Ya no viene en 150, 250 y 350, ni en ningún plan de solo Internet.'},
+  {f:'¿Qué canales traen los planes?', d:'Con TV: más de 190 canales (122 en HD) y más de 69 horas de Anytime. Solo Internet: 14 canales en la App Totalplay.'},
+  {f:'¿Qué más llevan los planes de 5,000 y 10,000 Megas con TV?', d:'Totalplay Surround, el sistema de sonido envolvente, además de WiFi 7 y las 5 apps.'},
+  {f:'¿Desde qué plan viene WiFi 7 incluido?', d:'Desde 500 Megas en adelante.'},
+  {f:'¿Cuánto dinero se ahorra el cliente al hacer portabilidad?', d:'$200 en internet con TV y $100 con solo internet, en el estado de cuenta siguiente a que concluya la portabilidad.'}
+ ],
+ preguntas:[
+  {p:'¿Cuánto cuesta el plan de 500 Megas TV + Internet?', o:['$799','$860','$999','$1,200'], r:2,
+   x:'$999 al mes. Trae más de 190 canales (122 HD) y es el más popular.'},
+  {p:'En los planes de 5,000 y 10,000 Megas, las apps vienen…', o:['Sin anuncios','Con anuncios, como en todos los planes','Solo Netflix sin anuncios','A elegir'], r:1,
+   x:'Ahora todos los planes traen las apps en su versión con anuncios.'},
+  {p:'En el plan de 150 Megas TV + Internet, ¿cuánto duran Netflix, Disney+ y Apple TV?',
+   o:['3 meses','5 meses','12 meses','Para siempre'], r:1,
+   x:'5 meses en TV + Internet. En solo Internet son 3 meses.'},
+  {p:'¿Cuál de estos planes trae Universal+?', o:['350 Megas con TV','500 Megas solo Internet','500 Megas con TV','150 Megas con TV'], r:2,
+   x:'Universal+ solo viene en planes con TV desde 500 Megas.'},
+  {p:'¿Desde qué plan se incluye HBO Max?', o:['350 Megas','500 Megas','1,000 Megas','5,000 Megas'], r:2,
+   x:'Desde 1,000 Megas, con y sin TV.'},
+  {p:'En el plan de 350 Megas, Disney+…', o:['Va incluido para siempre','Va por 5 meses con TV o 3 sin TV','No viene','Solo con 5,000'], r:1,
+   x:'En 350 Netflix y Apple TV son indefinidos; Disney+ es temporal.'},
+  {p:'¿Cuánto cuesta el plan de 1,000 Megas solo Internet?', o:['$860','$1,000','$1,200','$1,999'], r:1,
+   x:'$1,000 al mes. El de TV + Internet de 1,000 cuesta $1,200.'},
+  {p:'¿Cuánto se ahorra el cliente al portar su número en un plan con TV?', o:['$50','$100','$200','$280'], r:2,
+   x:'$200 con TV y $100 en solo internet.'}
+ ]
+},
+{
+ id:'anuncios', nombre:'Streaming con anuncios', icono:'🎬', pie:'Netflix, Disney+, Universal+ y HBO Max con anuncios',
+ tarjetas:[
+  {f:'¿Qué significa que un plan de streaming sea "con anuncios"?', d:'Que el cliente paga menos por la suscripción, pero durante la reproducción aparecen pausas comerciales breves que no se pueden saltar ni adelantar.'},
+  {f:'¿Qué trae Netflix Estándar con anuncios?', d:'Gran variedad de películas y series, imagen Full HD (1080p), hasta 2 dispositivos al mismo tiempo, hasta 15 descargas por dispositivo al mes, y los juegos móviles de Netflix incluidos.'},
+  {f:'¿En qué planes viene Netflix con anuncios?', d:'Incluido de por vida desde 350 Megas. En 150 y 250 va por 5 meses con TV y 3 meses sin TV. Por separado cuesta $110.'},
+  {f:'¿Para quién es ideal Netflix con anuncios?', d:'Para quien busca ahorrar en su suscripción, familias que usan hasta 2 pantallas, y quienes principalmente ven series y películas en casa.'},
+  {f:'¿Qué trae Disney+ Estándar con anuncios?', d:'El universo Disney, Pixar, Marvel, Star Wars, National Geographic y Hulu, hasta en 2 dispositivos simultáneos, y disponible en Smart TV, celular, tablet, navegador y consolas.'},
+  {f:'¿Qué NO incluye Disney+ con anuncios?', d:'No permite descargar contenido para verlo sin conexión. Además, en eventos deportivos y transmisiones en vivo puede haber publicidad sin importar el plan.'},
+  {f:'¿En qué planes viene Disney+ y cuánto vale por separado?', d:'Incluido de por vida desde 500 Megas; en 150, 250 y 350 va por 5 meses con TV y 3 sin TV. Por separado se valora en $149 (Combo 3 Apps). Disney+ Estándar sin anuncios cuesta $259 y Premium $339.'},
+  {f:'¿Qué trae Universal+ Estándar con anuncios?', d:'Películas, series y realities de NBCUniversal, con estrenos exclusivos, y hasta 4 dispositivos simultáneos: su gran ventaja frente a Netflix y Disney+.'},
+  {f:'¿En qué planes viene Universal+?', d:'Solo en planes con TV desde 500 Megas. Ya no viene en 150, 250 y 350 ni en planes de solo Internet.'},
+  {f:'¿Qué trae HBO Max Básico con anuncios y dónde viene?', d:'Series premiadas y grandes franquicias, en 2 dispositivos simultáneos; no permite descargas. Viene incluido de por vida desde 1,000 Megas, con y sin TV.'},
+  {f:'¿Cuál de las apps con anuncios permite más dispositivos al mismo tiempo?', d:'Universal+, con hasta 4 dispositivos. Netflix, Disney+ y HBO Max permiten hasta 2.'},
+  {f:'¿Por qué ofrecerle a un cliente un plan con anuncios?', d:'Porque sigue teniendo acceso a un catálogo grande, en varios dispositivos, pagando menos. La publicidad es el único cambio a cambio del ahorro.'}
+ ],
+ preguntas:[
+  {p:'¿Cuántos dispositivos simultáneos permite Netflix con anuncios?', o:['1','2','3','4'], r:1,
+   x:'Hasta 2 dispositivos al mismo tiempo, dentro del hogar.'},
+  {p:'¿Cuál de las apps con anuncios permite hasta 4 dispositivos al mismo tiempo?', o:['Netflix','Disney+','Universal+','HBO Max'], r:2,
+   x:'Universal+ es la que más dispositivos simultáneos permite: hasta 4.'},
+  {p:'¿Qué NO puede hacer un cliente con Disney+ Estándar con anuncios?', o:['Ver en Smart TV','Descargar contenido para verlo sin conexión','Ver en varios dispositivos','Ver contenido de Marvel'], r:1,
+   x:'Disney+ con anuncios no permite descargar contenido para verlo sin conexión.'},
+  {p:'¿Cómo funcionan los anuncios en estos planes?', o:['El cliente los puede saltar','Aparecen durante la reproducción y no se pueden saltar ni adelantar','Solo aparecen una vez al mes','No hay anuncios, es solo el nombre'], r:1,
+   x:'Son pausas comerciales breves durante la reproducción, que no se pueden saltar ni adelantar.'},
+  {p:'¿Desde qué plan viene Netflix con anuncios incluido de por vida?', o:['150 Megas','350 Megas','500 Megas','1,000 Megas'], r:1,
+   x:'Desde 350 Megas. En 150 y 250 es temporal.'},
+  {p:'¿Cuál es la principal razón para ofrecerle a un cliente un plan con anuncios?', o:['Tiene mejor calidad de imagen','Paga menos y sigue disfrutando un catálogo grande','Es exclusivo para clientes nuevos','No tiene límite de dispositivos'], r:1,
+   x:'La ventaja es el ahorro: mismo catálogo, pagando menos, a cambio de aceptar pausas comerciales.'}
  ]
 },
 {
@@ -425,70 +559,6 @@ var TEMAS = [
  ]
 },
 {
- id:'planes', nombre:'Planes y Megas', icono:'📶', pie:'Oferta residencial · precios y apps incluidas',
- tarjetas:[
-  {f:'Precios TV + Internet, de memoria', d:'150 → $599 · 250 → $699 · 350 → $799 · 500 → $999 · 1,000 → $1,200 · 5,000 → $2,499 · 10,000 → $2,999'},
-  {f:'Precios solo Internet, de memoria', d:'150 → $460 · 250 → $560 · 350 → $660 · 500 → $860 · 1,000 → $1,000 · 5,000 → $1,999 · 10,000 → $2,499'},
-  {f:'¿Desde qué plan las apps van SIN anuncios?', d:'Desde 5,000 Megas. De 150 a 1,000 las apps van con anuncios.'},
-  {f:'¿En qué planes las apps son solo temporales?', d:'En 150 y 250. Netflix, Universal+ y Apple TV duran 5 meses en TV + Internet y 3 meses en solo Internet. Del 350 en adelante quedan indefinidas.'},
-  {f:'¿Desde qué plan se incluye Disney+?', d:'Desde 500 Megas.'},
-  {f:'¿Desde qué plan se incluye HBO Max?', d:'Desde 1,000 Megas. Ojo: el plan de 500 de solo Internet NO trae HBO Max.'},
-  {f:'Adicional a las aplicaciones incluidas, ¿qué otras funciones o beneficios tienen los planes con TV?', d:'Más de 190 canales (122 en HD) y más de 69 horas de Anytime.'},
-  {f:'Además de +190 canales (122 HD), +69h Anytime y WiFi 7, ¿qué más llevan los planes de 5,000 y 10,000 Megas con TV?', d:'Totalplay Surround, el sistema de sonido envolvente, y las apps sin anuncios.'},
-  {f:'¿Desde qué plan viene WiFi 7 incluido?', d:'Desde 500 Megas en adelante.'},
-  {f:'¿Cuántas apps puede elegir el cliente?', d:'Hasta 5, según lo que permita su plan: Netflix, Apple TV, HBO Max, Disney+ y Universal+.'},
-  {f:'¿Cuánto dinero se ahorra el cliente al hacer portabilidad en internet con TV y sin TV?', d:'$200 en internet con TV y $100 con solo internet, al pagar su primera factura después del primer mes de disfrutar del servicio.'}
- ],
- preguntas:[
-  {p:'¿Cuánto cuesta el plan de 500 Megas TV + Internet?', o:['$799','$860','$999','$1,200'], r:2,
-   x:'$999 al mes. Trae más de 190 canales (122 HD) y es el más popular.'},
-  {p:'¿Desde qué plan las apps se incluyen SIN anuncios?', o:['Desde 500','Desde 1,000','Desde 5,000','En todos'], r:2,
-   x:'Solo 5,000 y 10,000 Megas traen las apps sin anuncios.'},
-  {p:'En el plan de 150 Megas TV + Internet, ¿cuánto duran Netflix, Universal+ y Apple TV?',
-   o:['3 meses','5 meses','12 meses','Para siempre'], r:1,
-   x:'5 meses en TV + Internet. En solo Internet son 3 meses.'},
-  {p:'¿Cuál plan de solo Internet NO incluye HBO Max?', o:['350 Megas','500 Megas','1,000 Megas','5,000 Megas'], r:1,
-   x:'El de 500 Megas de solo Internet trae Netflix, Apple TV, Disney+ y Universal+, más 14 canales en la App, pero no HBO Max.'},
-  {p:'¿Cuánto cuesta el plan de 1,000 Megas solo Internet?', o:['$860','$1,000','$1,200','$1,999'], r:1,
-   x:'$1,000 al mes. El de TV + Internet de 1,000 cuesta $1,200.'},
-  {p:'¿Desde qué plan se incluye WiFi 7?', o:['Desde 250','Desde 350','Desde 500','Desde 1,000'], r:2,
-   x:'Desde 500 Megas en adelante.'},
-  {p:'¿Cuánto se ahorra el cliente al portar su número en un plan con TV?', o:['$50','$100','$200','$280'], r:2,
-   x:'$200 con TV y $100 en solo internet, al pagar su primera factura después del primer mes de servicio.'},
-  {p:'Todos los planes con TV incluyen…', o:['Solo las apps','+190 canales (122 HD) y +69h Anytime','WiFi 7 desde el de 150','Surround'], r:1,
-   x:'Los canales y el Anytime van en todos los planes con TV. WiFi 7 entra desde 500 y Surround solo en 5,000 y 10,000.'}
- ]
-},
-{
- id:'anuncios', nombre:'Streaming con anuncios', icono:'🎬', pie:'Netflix, Disney+ y Universal+ Estándar con anuncios',
- tarjetas:[
-  {f:'¿Qué significa que un plan de streaming sea "con anuncios"?', d:'Que el cliente paga menos por la suscripción, pero durante la reproducción aparecen pausas comerciales breves que no se pueden saltar ni adelantar.'},
-  {f:'¿Qué apps de Totalplay tienen versión Estándar con anuncios?', d:'Netflix, Disney+ y Universal+.'},
-  {f:'¿Qué trae Netflix Estándar con anuncios?', d:'Gran variedad de películas y series, imagen Full HD (1080p), hasta 2 dispositivos al mismo tiempo, hasta 15 descargas por dispositivo al mes, y los juegos móviles de Netflix incluidos.'},
-  {f:'¿Para quién es ideal Netflix con anuncios?', d:'Para quien busca ahorrar en su suscripción, familias que usan hasta 2 pantallas, y quienes principalmente ven series y películas en casa.'},
-  {f:'¿Qué trae Disney+ Estándar con anuncios?', d:'El universo Disney, Pixar, Marvel, Star Wars, National Geographic y Hulu, hasta en 2 dispositivos simultáneos, y disponible en Smart TV, celular, tablet, navegador y consolas.'},
-  {f:'¿Qué NO incluye Disney+ con anuncios?', d:'No permite descargar contenido para verlo sin conexión. Además, en eventos deportivos y transmisiones en vivo puede haber publicidad sin importar el plan.'},
-  {f:'¿Qué trae Universal+ Estándar con anuncios?', d:'Películas, series y realities de NBCUniversal, con estrenos exclusivos, y hasta 4 dispositivos simultáneos: su gran ventaja frente a Netflix y Disney+.'},
-  {f:'¿Para quién es ideal Universal+ con anuncios?', d:'Para familias o grupos que usan varias pantallas, quienes disfrutan realities, y quienes quieren complementar Netflix o Disney+ con otro catálogo.'},
-  {f:'¿Cuál de las tres apps con anuncios permite más dispositivos al mismo tiempo?', d:'Universal+, con hasta 4 dispositivos. Netflix y Disney+ permiten hasta 2.'},
-  {f:'¿Por qué ofrecerle a un cliente un plan con anuncios?', d:'Porque sigue teniendo acceso a un catálogo grande, en varios dispositivos, pagando menos. La publicidad es el único cambio a cambio del ahorro.'}
- ],
- preguntas:[
-  {p:'¿Cuáles son las tres apps que Totalplay ofrece en versión Estándar con anuncios?', o:['Netflix, Disney+ y Universal+','Netflix, Amazon y HBO Max','Disney+, Apple TV y HBO Max','Netflix, Universal+ y Apple TV'], r:0,
-   x:'Netflix, Disney+ y Universal+ son las que tienen versión Estándar con anuncios.'},
-  {p:'¿Cuántos dispositivos simultáneos permite Netflix con anuncios?', o:['1','2','3','4'], r:1,
-   x:'Hasta 2 dispositivos al mismo tiempo, dentro del hogar.'},
-  {p:'¿Cuál de las tres apps con anuncios permite hasta 4 dispositivos al mismo tiempo?', o:['Netflix','Disney+','Universal+','Las tres por igual'], r:2,
-   x:'Universal+ es la que más dispositivos simultáneos permite: hasta 4.'},
-  {p:'¿Qué NO puede hacer un cliente con Disney+ Estándar con anuncios?', o:['Ver en Smart TV','Descargar contenido para verlo sin conexión','Ver en varios dispositivos','Ver contenido de Marvel'], r:1,
-   x:'Disney+ con anuncios no permite descargar contenido para verlo sin conexión.'},
-  {p:'¿Cómo funcionan los anuncios en estos planes?', o:['El cliente los puede saltar','Aparecen durante la reproducción y no se pueden saltar ni adelantar','Solo aparecen una vez al mes','No hay anuncios, es solo el nombre'], r:1,
-   x:'Son pausas comerciales breves durante la reproducción, que no se pueden saltar ni adelantar.'},
-  {p:'¿Cuál es la principal razón para ofrecerle a un cliente un plan con anuncios?', o:['Tiene mejor calidad de imagen','Paga menos y sigue disfrutando un catálogo grande','Es exclusivo para clientes nuevos','No tiene límite de dispositivos'], r:1,
-   x:'La ventaja es el ahorro: mismo catálogo, pagando menos, a cambio de aceptar pausas comerciales.'}
- ]
-},
-{
  id:'reglas', nombre:'Reglas de negocio', icono:'📋', pie:'Qué convive, qué no, y cómo se modela',
  tarjetas:[
   {f:'Más Apps SÍ convive con…', d:'Descuento por lealtad · promociones de Nuevo Totalplay TV · adicionales de contenido e instalables · Precio Especial (250, 350, 5,000 y 10,000) · descuento de portabilidad · Plan de Verano.'},
@@ -496,7 +566,10 @@ var TEMAS = [
   {f:'Descuento Especial 5 meses: NO convive con…', d:'Plan de Verano · promociones de Más Apps · descuento a empleados · Precio Especial en 5,000 y 10,000.'},
   {f:'Descuento Especial 5 meses: ¿de cuánto es?', d:'150 y 250 → $60 · 350 → $70 · 500 → $70 solo en Internet (N/A con TV) · 1,000 → $150 · 5,000 y 10,000 → no aplica.'},
   {f:'¿El cliente puede llevar Más Apps y el Descuento Especial?', d:'No. Elige uno de los dos, nunca los dos juntos.'},
-  {f:'Cómo se modela Más Apps en sistema', d:'Netflix → MÁS APPS - NETFLIX INCLUIDO · Universal+ → MÁS APPS - UNIVERSAL+ INCLUIDO · Apple TV → MÁS APPS - APPLE TV INCLUIDO · HBO Max → MÁS APPS - MAX BÁSICO INCLUIDO · Disney+ → MÁS APPS - DISNEY+ INCLUIDO.'},
+  {f:'Cómo se modela Más Apps en 150 y 250 Megas', d:'En Descuentos Especiales: MÁS APPS - NETFLIX ADS, MÁS APPS - DISNEY ADS y MÁS APPS - APPLE TV, cada una POR 5 MESES con TV o POR 3 MESES sin TV. PRECIO ESPECIAL solo en 250.'},
+  {f:'Cómo se modela Más Apps en 350 Megas', d:'MÁS APPS - NETFLIX ADS INCLUIDO · MÁS APPS - APPLE TV INCLUIDO · MÁS APPS - DISNEY ADS INCLUIDO 5 MESES (3 MESES sin TV) · PRECIO ESPECIAL. Con TV, además NUEVO TOTALPLAY TV INCLUIDO.'},
+  {f:'Cómo se modela Más Apps de 500 a 10,000 Megas', d:'NETFLIX ADS, APPLE TV y DISNEY ADS INCLUIDO. Con TV suma UNIVERSAL+ INCLUIDO, NUEVO TOTALPLAY TV INCLUIDO y SPEAKERS INCLUIDO. Desde 1,000 suma MÁS APPS - MAX BÁSICO INCLUIDO y PRECIO ESPECIAL.'},
+  {f:'¿Qué pasa con el adicional de Apple TV al modelar?', d:'Al modelar la promoción de Apple TV (y la de Universal+), el adicional se modela en automático.'},
   {f:'¿Cuándo pierde el cliente sus promociones?', d:'Si cambia a un plan no elegible o si cancela el servicio. En varias promos también si cae en morosidad.'},
   {f:'Promos que se pueden sumar a la venta', d:'TV Adicional $99 · WiFi Pro $59 · descuento por lealtad · portabilidad · WiFi 7 desde 500 Megas · Precio Especial en 250, 350, 1,000, 5,000 y 10,000.'},
   {f:'¿Qué no convive con Entretenimiento Avanzado ni Intermedio?', d:'Match (Netflix), Unbox (Amazon), HBO Max Básico, Disney+ Estándar y Apple TV.'}
@@ -508,6 +581,9 @@ var TEMAS = [
   {p:'¿Cómo se modela HBO Max dentro de Más Apps?',
    o:['MÁS APPS - HBO INCLUIDO','MÁS APPS - MAX BÁSICO INCLUIDO','HBO MAX PROMOCIÓN','MAX INCLUIDO 5 MESES'], r:1,
    x:'Se captura como MÁS APPS - MAX BÁSICO INCLUIDO.'},
+  {p:'En un plan de 150 Megas con TV, Netflix se captura como…',
+   o:['MÁS APPS - NETFLIX ADS INCLUIDO','MÁS APPS - NETFLIX ADS POR 5 MESES','MÁS APPS - NETFLIX POR 3 MESES','NETFLIX PREMIUM'], r:1,
+   x:'Con TV en 150 y 250 va POR 5 MESES; sin TV, POR 3 MESES.'},
   {p:'El Descuento Especial por 5 meses en el plan de 1,000 Megas es de…',
    o:['$60','$70','$100','$150'], r:3, x:'$150, tanto en TV + Internet como en solo Internet.'},
   {p:'¿Con cuál de estas SÍ convive Más Apps?',
@@ -519,28 +595,31 @@ var TEMAS = [
  ]
 },
 {
- id:'vsb', nombre:'VSB y Nuevo Totalplay TV', icono:'🔊', pie:'Video Sound Box · verano 2026',
+ id:'vsb', nombre:'Totalplay VSB', icono:'🔊', pie:'Video Sound Box · vigencia 15 oct 2026',
  tarjetas:[
-  {f:'Plan de Verano: ¿qué es y cuánto cuesta?', d:'$999 al mes: 500 Megas + VSB, exclusivo de este plan. Clientes nuevos y actuales. Vigencia del 22 al 31 de julio de 2026.'},
+  {f:'350 Megas + VSB sin costo: ¿qué es?', d:'$799 al mes: 350 Megas con el VSB incluido como TV principal, sin costo adicional, en vez de la caja 4K. Incluye Netflix, Disney+ y Apple TV con anuncios. Clientes nuevos y actuales. Vigente del 29 de septiembre al 15 de octubre de 2026.'},
+  {f:'Plan de Verano: ¿qué es y cuánto cuesta?', d:'$999 al mes: 500 Megas + VSB, exclusivo de este plan. Clientes nuevos y actuales.'},
   {f:'Kit VSB + Surround', d:'$249 al mes, en planes de 150 a 350 Megas con VSB. Clientes nuevos y actuales.'},
-  {f:'VSB por $50 adicionales', d:'+$50 al mes en planes de 250 y 350 Megas. El cliente recibe el VSB como TV principal.'},
-  {f:'¿Conviven entre sí las tres promos de VSB?', d:'No. Plan de Verano, Kit VSB + Surround y VSB por $50 se excluyen entre ellas. Ninguna convive con Tu Experiencia al 100 ni con promociones segmentadas.'},
-  {f:'Cambio importante: Alexa en VSB', d:'En decodificadores VSB y DIW377 dejan de estar disponibles los comandos de voz con Alexa. En clientes actuales la desactivación es paulatina hasta el 5 de agosto.'},
+  {f:'VSB como TV principal por $50', d:'+$50 al mes en planes de 250 y 350 Megas. Ojo: en 350 Megas el VSB ya viene sin costo con la promo destacada.'},
+  {f:'¿Conviven entre sí las promos de VSB?', d:'No. 350 + VSB, Plan de Verano, Kit VSB + Surround y VSB por $50 se excluyen entre ellas. Tampoco conviven con Tu Experiencia al 100, promociones segmentadas ni el Descuento Especial ($70).'},
+  {f:'¿Con qué SÍ conviven las promos de VSB?', d:'Con adicionales de contenido, otros instalables (WiFi Pro, TV adicional, VSB adicional), streamings, megas adicionales, descuento a empleados y descuento de portabilidad ($200).'},
+  {f:'¿El cliente puede escoger el modelo de VSB?', d:'No. El modelo de VSB se entrega según disponibilidad en almacén.'},
+  {f:'Cambio importante: Alexa en VSB', d:'En decodificadores VSB y DIW377 dejan de estar disponibles los comandos de voz con Alexa. En clientes actuales la desactivación fue paulatina hasta el 5 de agosto.'},
   {f:'¿Quién decidió quitar Alexa?', d:'El proveedor, para todo el Continente Americano. No fue una decisión de Totalplay.'},
   {f:'¿Qué le explico al cliente sobre Alexa?', d:'Que no afecta contenidos, aplicaciones ni funciones principales. TV en vivo, canales, On Demand, streaming y el control remoto siguen igual.'},
   {f:'Lo bueno del VSB que sí puedes presumir', d:'Audio 360 certificado por Dolby Atmos · acústica Bang & Olufsen con 3 bocinas y 1 subwoofer · WiFi 6 · imagen HDR · actualizaciones continuas.'}
  ],
  preguntas:[
+  {p:'¿Cuánto cuesta el plan de 350 Megas con VSB incluido?', o:['$749','$799','$849','$999'], r:1,
+   x:'$799: el VSB va como TV principal sin costo adicional.'},
   {p:'El Plan de Verano de $999 incluye…', o:['350 Megas + VSB','500 Megas + VSB','1,000 Megas + Surround','500 Megas sin VSB'], r:1,
    x:'500 Megas más el Video Sound Box, exclusivo de ese plan.'},
   {p:'El Kit VSB + Surround de $249 aplica en planes de…', o:['100 a 250','150 a 350','350 a 500','500 en adelante'], r:1,
    x:'De 150 a 350 Megas con VSB.'},
-  {p:'¿En qué planes se puede llevar el VSB por $50 adicionales?', o:['150 y 250','250 y 350','350 y 500','Todos'], r:1,
-   x:'Solo en 250 y 350 Megas, y el VSB entra como TV principal.'},
+  {p:'¿El 350 + VSB sin costo convive con el Descuento Especial de $70?', o:['Sí','No','Solo sin TV','Solo clientes actuales'], r:1,
+   x:'No convive con el Descuento Especial, Kit VSB, VSB por $50, Tu Experiencia al 100 ni segmentadas.'},
   {p:'¿Quién decidió desactivar los comandos de voz con Alexa?', o:['Totalplay','El proveedor, para todo el Continente Americano','El cliente','Amazon México únicamente'], r:1,
-   x:'Fue decisión del proveedor para todo el Continente Americano, no de Totalplay.'},
-  {p:'¿Hasta qué fecha es la desactivación paulatina de Alexa en clientes actuales?', o:['31 de julio','5 de agosto','31 de agosto','30 de septiembre'], r:1,
-   x:'Hasta el 5 de agosto.'}
+   x:'Fue decisión del proveedor para todo el Continente Americano, no de Totalplay.'}
  ]
 },
 {
@@ -568,36 +647,39 @@ var TEMAS = [
  ]
 },
 {
- id:'promos', nombre:'Consecutivo de promociones', icono:'🔥', pie:'Lealtad, portabilidad, Totalplayers y más',
+ id:'promos', nombre:'Consecutivo de promociones', icono:'🏆', pie:'Lealtad, portabilidad, contenido y más · vigencia 31 oct 2026',
  tarjetas:[
-  {f:'Descuento por lealtad: ¿desde cuándo se ve?', d:'Se refleja en el estado de cuenta a partir del 6º mes. Se modela automático; confírmalo en tu App de Ventas, en Descuentos Especiales.'},
+  {f:'Descuento por lealtad: ¿desde cuándo se ve?', d:'Se refleja en el estado de cuenta a partir del 6º mes. Se modela automático; confírmalo en tu App de Ventas, en Descuentos Especiales. Si el cliente cambia de plan, se le aplica el del nuevo plan.'},
   {f:'Descuento por lealtad CON TV', d:'100, 150 y 250 → $30 · 350 → $40 · 500 → $50 · 1,000, 5,000 y 10,000 → $100.'},
   {f:'Descuento por lealtad SIN TV', d:'100, 150 y 250 → $20 · 350 → $30 · 500 → $60 · 1,000, 5,000 y 10,000 → $80.'},
   {f:'¿Con qué no convive el descuento por lealtad?', d:'Con descuento a empleados ni con gratuidades.'},
-  {f:'Descuento de portabilidad', d:'$200 en TV + Internet y $100 en solo Internet. Solo clientes nuevos, planes de 100 a 10,000. Lo modela el Centro de Soluciones.'},
-  {f:'¿Cuándo se ve el descuento de portabilidad?', d:'En el estado de cuenta siguiente, una vez concluida la portabilidad. El cliente la sigue desde su App o Mi Totalplay.'},
-  {f:'Activación sin costo', d:'Todos los planes de 100 a 10,000, en oferta base, especiales, bundles y Nuevo Totalplay TV. No requiere venta exprés y aplica en todos los canales.'},
+  {f:'Descuento de portabilidad', d:'$200 en TV + Internet y $100 en solo Internet. Solo clientes nuevos, planes de 100 a 10,000. Lo modela el Centro de Soluciones (Portabilidad).'},
+  {f:'Activación sin costo', d:'Todos los planes de 100 a 10,000, en oferta base, especiales, bundles y Nuevo Totalplay TV. No requiere venta exprés y aplica en todos los canales. Mesa de Control la encuentra como ACTIVACIÓN SIN COSTO.'},
   {f:'Tu Experiencia al 100', d:'+$100 al mes: el Nuevo Totalplay TV (VSB) como equipo principal, en planes de TV de 150 a 350 Megas. Precio por tiempo indefinido.'},
-  {f:'Nuevo Totalplay TV incluido', d:'En planes de TV de 500 a 10,000 Megas el Nuevo Totalplay TV sustituye a la caja 4K sin costo extra.'},
+  {f:'Nuevo Totalplay TV incluido: ¿desde qué plan?', d:'Desde 350 Megas (antes era desde 500). En planes de TV de 350 a 10,000 Megas sustituye a la caja 4K sin costo extra. Es el mejor pretexto para subir al cliente de 150 o 250 a 350.'},
   {f:'Nuevo Totalplay TV adicional', d:'+$199 al mes, solo en la 1ª TV adicional. La 2ª se cobra a precio regular: $280.'},
   {f:'TV Adicional y WiFi Pro', d:'TV Adicional $99 al mes en la primera TV adicional · WiFi Pro $59 al mes en el primer WiFi Pro. Los dos con precio indefinido.'},
-  {f:'Promo Totalplayers 2026', d:'Solo para colaboradores de Grupo Salinas: 20% de descuento en la renta y doble de Megas en planes de 150 a 500. El plan de 100 solo obtiene 50 Megas extra. Vigencia 12 meses.'},
+  {f:'Promo Totalplayers 2026', d:'Solo para colaboradores de Grupo Salinas: 20% de descuento en la renta (planes de 150 a 10,000) y doble de Megas en planes de 150 a 500. El plan de 100 solo obtiene 50 Megas extra. Vigencia 12 meses; el descuento se ve en la 2ª factura.'},
   {f:'¿Cuándo pierde la Promo Totalplayers?', d:'Si cae en morosidad, cancela, cambia a un plan no elegible o deja de laborar en Grupo Salinas.'},
-  {f:'HOT GO', d:'50% de descuento el primer, segundo y tercer mes. Del 4º mes en adelante paga el precio vigente.'}
+  {f:'HOT GO', d:'50% de descuento el primer, segundo y tercer mes. Del 4º mes en adelante paga el precio vigente. App de novelas, series y contenido exclusivo de HOT.'},
+  {f:'FOX+', d:'$199 al mes; el primer mes con 25% de descuento (paga alrededor de $149). Solo planes TV + Internet. Es el canal 100% de deportes: ofrécelo a todo cliente aficionado.'},
+  {f:'Stingray Qello y Stingray Karaoke', d:'Los dos con 50% de descuento el primer y segundo mes; del 3er mes paga precio vigente. Solo planes TV + Internet. Qello: conciertos y documentales musicales. Karaoke: canciones con letra en pantalla para reuniones.'}
  ],
  preguntas:[
   {p:'¿A partir de qué mes se refleja el descuento por lealtad?', o:['Del 1º','Del 3º','Del 6º','Del 12º'], r:2,
    x:'Se ve en el estado de cuenta a partir del 6º mes.'},
   {p:'Descuento por lealtad en un plan de 500 Megas CON TV:', o:['$30','$50','$60','$100'], r:1,
    x:'$50 con TV. Sin TV, ese mismo plan da $60.'},
-  {p:'El descuento de portabilidad en TV + Internet es de…', o:['$100','$150','$200','$280'], r:2,
-   x:'$200 en TV + Internet y $100 en solo Internet. Solo para clientes nuevos.'},
+  {p:'¿Desde qué plan se incluye el Nuevo Totalplay TV como TV principal?', o:['150 Megas','350 Megas','500 Megas','1,000 Megas'], r:1,
+   x:'Ahora desde 350 Megas (antes era desde 500).'},
   {p:'¿Cuánto cuesta la segunda TV adicional con Nuevo Totalplay TV?', o:['$99','$199','$280','Gratis'], r:2,
    x:'La promo de $199 solo aplica en la 1ª TV adicional. La 2ª va a precio regular: $280.'},
   {p:'La Promo Totalplayers 2026 es exclusiva para…', o:['Clientes nuevos','Colaboradores de Grupo Salinas','Clientes con 1,000 Megas','Portabilidades'], r:1,
    x:'Solo para colaboradores de Grupo Salinas, con el servicio a su nombre.'},
   {p:'HOT GO da 50% de descuento durante…', o:['1 mes','3 meses','5 meses','6 meses'], r:1,
    x:'Primer, segundo y tercer mes. Del 4º en adelante, precio vigente.'},
+  {p:'¿Qué descuento trae FOX+ el primer mes?', o:['50%','25%','100%','No trae descuento'], r:1,
+   x:'25% el primer mes; después paga $199.'},
   {p:'Tu Experiencia al 100 aplica en planes de TV de…', o:['100 a 150','150 a 350','350 a 500','500 a 10,000'], r:1,
    x:'De 150 a 350 Megas, con el VSB como equipo principal, por +$100 al mes.'}
  ]
@@ -607,13 +689,16 @@ var TEMAS = [
  tarjetas:[
   {f:'¿Qué son Megas simétricos y cómo se lo explicas al cliente?', d:'Que tiene la misma velocidad de bajada que de subida: si contrata 500 Megas, son 500 para descargar y 500 para subir. Díselo así: "no nada más ve rápido, también sube rápido". Sirve para videollamadas, clases en línea y trabajar desde casa.'},
   {f:'¿Qué es +69h Anytime?', d:'Más de 69 horas de contenido bajo demanda que el cliente puede ver a la hora que quiera, sin depender de la programación en vivo.'},
+  {f:'¿Qué es AVOD?', d:'Video Bajo Demanda con Anuncios: elegir y ver películas o series por internet cuando uno quiera, a cambio de ver comerciales cortos durante el video.'},
   {f:'¿Qué es Totalplay Surround?', d:'El sistema de sonido envolvente que se incluye en los planes de 5,000 y 10,000 Megas. Se modela como TOTALPLAY SURROUND - INCLUIDO.'},
   {f:'¿Qué es WiFi Pro?', d:'Un equipo adicional que amplía la cobertura del WiFi en la casa, para que llegue buena señal a los cuartos más alejados. Se cobra aparte cada mes.'},
   {f:'¿Qué es un bundle?', d:'Un paquete que junta el plan con una o varias apps o servicios en un solo precio, en lugar de contratarlos por separado.'},
   {f:'¿Qué es el Club Totalplay WiFi?', d:'Un beneficio gratuito para conectarse a internet fuera de casa en miles de puntos de acceso, sin gastar datos móviles. El módem comparte una segunda señal, totalmente separada de la red personal del cliente. Participar es opcional.'},
   {f:'¿Qué es WiFi 7 y cómo lo explicas fácil?', d:'La generación más reciente de conexión inalámbrica. Explícalo así: WiFi 5 es una carretera de pocos carriles, WiFi 6 una más amplia, y WiFi 7 una superautopista donde todos los aparatos circulan al mismo tiempo sin hacer tráfico.'},
   {f:'¿Qué tan rápido es WiFi 7?', d:'Hasta 4.8 veces más rápido que WiFi 6, con menos retraso. Ojo: para aprovecharlo se necesita módem compatible y que los aparatos del cliente también lo soporten.'},
-  {f:'¿Qué es Dolby Atmos?', d:'Una tecnología de sonido envolvente que crea audio en tres dimensiones: el sonido parece venir de cualquier dirección, incluso desde arriba. Se adapta al equipo que use el cliente.'},
+  {f:'¿Qué es la latencia?', d:'El tiempo que tarda un paquete de datos en ir y volver, medido en milisegundos (ms). Baja es ideal para videollamadas y juegos. No es lo mismo que ancho de banda: el ancho de banda es cuánto cabe; la latencia, qué tan rápido responde.'},
+  {f:'¿Qué es el lag?', d:'El retraso que se nota entre lo que el cliente hace y la respuesta que recibe: la latencia que ya se hizo visible. Se nota en videollamadas, juegos en línea y streaming.'},
+  {f:'¿Qué es Dolby Atmos?', d:'Una tecnología de sonido envolvente que crea audio en tres dimensiones: el sonido parece venir de cualquier dirección, incluso desde arriba. El VSB es el equipo que lo lleva a la sala del cliente.'},
   {f:'¿Qué es el precio pronto pago?', d:'El precio más bajo del plan, y aplica si el cliente paga dentro de los primeros 5 días naturales desde que se emite su estado de cuenta. Si deja pasar ese plazo, se le cobra el precio de lista, que es más alto.'},
   {f:'¿Qué es un plan 2P y uno 3P?', d:'2P es un plan de Internet instalado. 3P es Internet + TV instalado.'}
  ],
@@ -626,10 +711,87 @@ var TEMAS = [
    x:'Solo en los planes de 5,000 y 10,000 Megas.'},
   {p:'El Club Totalplay WiFi le cuesta al cliente…', o:['$59 al mes','Nada, es un beneficio gratuito','Solo con WiFi Pro','$99 al mes'], r:1,
    x:'Es gratuito para clientes activos, y participar es opcional.'},
+  {p:'La latencia se mide en…', o:['Megas','Milisegundos','Gigabytes','Canales'], r:1,
+   x:'En milisegundos (ms): es el tiempo de ida y vuelta de los datos.'},
   {p:'¿Qué tan rápido es WiFi 7 comparado con WiFi 6?', o:['Igual','El doble','Hasta 4.8 veces más','10 veces más'], r:2,
    x:'Hasta 4.8 veces más rápido, con menos latencia.'},
   {p:'Si el cliente quiere aprovechar WiFi 7 necesita…', o:['Solo el plan','Módem compatible y aparatos que lo soporten','Contratar WiFi Pro','Un plan de 10,000'], r:1,
    x:'No basta con el plan: hacen falta módem compatible y dispositivos que soporten la tecnología.'}
+ ]
+},
+{
+ id:'negocios', nombre:'Totalplay Negocios', icono:'💼', pie:'Planes, apps incluidas y soluciones digitales',
+ tarjetas:[
+  {f:'Los planes de Negocios y sus megas', d:'Micro 100 · Elemental 150 · Esencial 250 · Dinámico 350 · Emprendedor 500 · Experto 1,000 · Ejecutivo 5,000 · Élite 10,000.'},
+  {f:'Precios pronto pago Negocios TV + Internet', d:'Elemental $619 · Esencial $720 · Dinámico $829 · Emprendedor $1,030 · Experto $1,240 · Ejecutivo $2,649 · Élite $3,159.'},
+  {f:'¿Qué apps traen Elemental y Esencial?', d:'Netflix con anuncios, Apple TV y Disney+ con anuncios por 5 meses en TV + Internet y 3 meses en solo Internet.'},
+  {f:'¿Qué apps trae Dinámico 350?', d:'Netflix con anuncios y Apple TV incluidos; Disney+ con anuncios por 5 meses (TV + Internet) o 3 meses (solo Internet). Además incluye el Administrador de Negocios.'},
+  {f:'¿Qué apps traen Emprendedor, Experto, Ejecutivo y Élite?', d:'Emprendedor: Netflix, Apple TV, Disney+ y Universal+. Experto, Ejecutivo y Élite suman HBO Max. Todas con anuncios (Apple TV no tiene versión con anuncios). En solo Internet no viene Universal+.'},
+  {f:'¿Desde qué plan se incluye el Administrador de Negocios?', d:'Desde Dinámico 350, de forma permanente mientras el cliente conserve su plan.'},
+  {f:'¿El cliente de Negocios puede llevar Más Apps y Totalamigo?', d:'No. Elige el streaming incluido (Más Apps) o el Descuento Totalamigo, nunca los dos.'},
+  {f:'¿Qué son las Soluciones Digitales?', d:'Herramientas que ya vienen incluidas en los planes de Negocios para vender, administrar y proteger el negocio: Aliado Digital, Internet Seguro, nube, notas de remisión, Factura Total, página web + tienda y Administrador del negocio.'},
+  {f:'¿Qué es el Aliado Digital?', d:'Asistencia técnica, legal y contable 24/7 por chat, teléfono o correo: ingenieros para fallas de cómputo, asesoría en contratos y permisos, y asesoría contable y fiscal para cumplir con el SAT.'},
+  {f:'¿Qué es Internet Seguro?', d:'Protección Bitdefender para Windows, Mac, iOS y Android: bloquea sitios infectados, ubica dispositivos extraviados, protege pagos en línea y detecta correos falsos.'},
+  {f:'¿Qué es el almacenamiento en la nube?', d:'HeyValue Cloud: de 50 GB a 1 TB según el plan, con sincronización y respaldo automático, para guardar y compartir archivos de forma segura.'},
+  {f:'Notas de remisión vs Factura Total', d:'Notas de remisión: control de ventas sin implicaciones fiscales, desde 100 Megas con 15 timbres al mes. Factura Total: facturas CFDI ilimitadas ante el SAT, incluido desde 250 Megas.'},
+  {f:'¿Qué trae la página web + tienda?', d:'Sitio profesional personalizado, tienda en línea con carrito y pagos seguros, y 5 correos con dominio propio. Es PERMANENTE, no se modela ninguna promoción y no se pierde si cambia de plan dentro de Negocios.'},
+  {f:'¿Qué es el Administrador del negocio?', d:'La plataforma HeyERP: ventas, compras, CRM, inventarios (con aviso de stock bajo) y finanzas, todo en un solo lugar y en la nube.'},
+  {f:'¿Cómo activa el cliente sus soluciones?', d:'Un Asesor de Activaciones le llama 24 horas después de la instalación, le llega un correo de bienvenida, o se comunica 24/7: chat asesorvirtual.com.mx, teléfono/WhatsApp 55 5350 8701 o ayuda@asesorvirtual.com.mx.'},
+  {f:'¿El plan de Negocios trae WiFi Pro?', d:'Sí. Todos los planes Negocios ya incluyen sin costo un WiFi Pro Extra.'},
+  {f:'Descuento por lealtad en Negocios', d:'Desde el 6º estado de cuenta y permanente. Élite, Ejecutivo y Experto −$80 Internet / −$100 TV · Emprendedor −$40 / −$60 · Dinámico −$30 / −$40 · Esencial −$20 / −$40 · Elemental y Micro 100 −$20 / −$30. Se conserva en morosidad y no aplica sobre adicionales.'}
+ ],
+ preguntas:[
+  {p:'¿Cuántos megas tiene el plan Dinámico de Negocios?', o:['150','250','350','500'], r:2,
+   x:'Dinámico es el de 350 Megas.'},
+  {p:'¿Cuál es el plan de Negocios de 10,000 megas?', o:['Experto','Ejecutivo','Élite','Emprendedor'], r:2,
+   x:'Élite es el de 10,000. Ejecutivo es de 5,000 y Experto de 1,000.'},
+  {p:'¿Desde qué plan de Negocios viene el Administrador de Negocios incluido?', o:['Elemental','Esencial','Dinámico','Experto'], r:2,
+   x:'Desde Dinámico 350, de manera permanente.'},
+  {p:'¿Qué plan de Negocios es el primero que trae HBO Max?', o:['Dinámico','Emprendedor','Experto','Élite'], r:2,
+   x:'Experto (1,000 Megas) en adelante suma HBO Max con anuncios.'},
+  {p:'El Aliado Digital incluye…', o:['Solo soporte técnico','Asistencia técnica, legal y contable 24/7','Una línea telefónica extra','Publicidad en redes'], r:1,
+   x:'Trae soporte técnico más asesoría legal y contable las 24 horas.'},
+  {p:'¿Desde qué plan se incluye Factura Total?', o:['Desde 100 Megas','Desde 250 Megas','Desde 500 Megas','Solo en Élite'], r:1,
+   x:'Factura Total desde 250 Megas. Las notas de remisión, desde 100.'},
+  {p:'La página web de Negocios…', o:['Cuesta $160 desde el mes 7','Es permanente y no se modela ninguna promoción','Solo dura 6 meses','Se pierde al cambiar de plan'], r:1,
+   x:'Ya viene incluida de forma permanente en las soluciones.'},
+  {p:'Descuento por lealtad de un Experto con TV:', o:['−$40','−$60','−$80','−$100'], r:3,
+   x:'Experto, Ejecutivo y Élite: −$100 con TV y −$80 en Internet.'}
+ ]
+},
+{
+ id:'negpromos', nombre:'Promos Negocios', icono:'🏢', pie:'Totalamigo y consecutivo · vigencia 15 oct 2026',
+ tarjetas:[
+  {f:'¿Qué es el Descuento Totalamigo?', d:'Hasta $150 de descuento sobre la renta del mes 1 al 5, para clientes nuevos de Internet y TV + Internet, en Elemental, Esencial, Dinámico, Emprendedor y Experto. En el mes 6 regresa al precio del plan.'},
+  {f:'¿De cuánto es el Totalamigo por plan?', d:'Experto −$150 Internet / −$140 TV · Emprendedor y Dinámico −$70 / −$65 · Esencial y Elemental −$60 / −$56.'},
+  {f:'¿Cómo se modela el Totalamigo?', d:'Es la Opción 2 (Negocio Especial): NEG- TOTALAMIGO + NEGOCIO ESPECIAL, capturando NEG-TOTALAMIGO y NEG BACK TO SCHOOL.'},
+  {f:'Totalamigo: ¿con qué sí y con qué no?', d:'Sí convive con el descuento por lealtad y la portabilidad. NO convive con Más Apps (Netflix, HBO, Universal+, Disney+), pago anticipado de 6 o 12 meses ni proyectos especiales.'},
+  {f:'¿Qué son los códigos "NEG-"?', d:'No son características del plan: son el nombre de la promoción que debes capturar en el sistema al modelar la venta.'},
+  {f:'Netflix con anuncios en Negocios: ¿cómo se modela?', d:'150 y 250 con TV: NEG- NETFLIX ADS CON ANUNCIOS POR 5 MESES. Solo Internet: POR 3 MESES. De 350 en adelante: NEG- NETFLIX ADS INCLUIDO.'},
+  {f:'¿Qué pasa si el cliente no cancela al terminar la promo de apps?', d:'Pagará el costo vigente del plan más las apps. Déjaselo claro desde la venta.'},
+  {f:'100% de descuento en activación', d:'Todos los planes Negocios, todos los canales, incluso instalación exprés. Convive con todas las promociones. Se modela como ACTIVACION $450 NEG o ACTIVACION $350 NEG, dentro de la vigencia.'},
+  {f:'Disney+ a la carta en promoción', d:'Disney+ Estándar a $99 al mes por 2 meses y Disney+ Premium a $119 al mes por 2 meses. Clientes nuevos y existentes. No conviven con Apps Super Bundle.'},
+  {f:'Paquete HBO Max con anuncios', d:'HBO Max App + Canales a la carta: 1 mes incluido + 50% por 3 meses. Se modela NEG- HBO MAX 1 MES INCLUIDO + 50% POR 3 MESES.'},
+  {f:'Portabilidad en Negocios', d:'$100 en Internet y $200 en TV + Internet, por 1 mes. Es por cuenta, NO por línea portada. Solo la modela el área de Portabilidad.'},
+  {f:'Recomienda y gana', d:'El cliente que recomienda recibe 50% de descuento por 2 meses una vez instalado el recomendado. Debe registrarlo antes en la App Totalplay o el Centro de Soluciones.'},
+  {f:'TV adicional y WiFi Pro en Negocios', d:'1ª TV adicional a $99 PERMANENTE (clientes nuevos). WiFi Pro extra con costo: 1er mes sin costo, o 50% por 12 meses para clientes existentes (no aplica para nueva venta).'},
+  {f:'30% en Protección Virtual', d:'30% por 3 meses en el 1er adicional de Protección Virtual: 5 usuarios de asistencia técnica, legal y contable, seguridad para 5 dispositivos y 250 GB de nube.'},
+  {f:'Contenido con descuento en Negocios', d:'HOTGO 50% por 3 meses · Stingray Qello 50% por 2 meses · Stingray Karaoke 50% por 2 meses.'},
+  {f:'Muy importante al modelar', d:'NO modeles promociones que aparezcan en la App de Ventas si no vienen en el Consecutivo de Promociones vigente. Si tienes dudas, acude con tu jefe inmediato.'}
+ ],
+ preguntas:[
+  {p:'¿De cuánto es el Descuento Totalamigo en un Experto solo Internet?', o:['−$56','−$70','−$140','−$150'], r:3,
+   x:'Experto: −$150 en Internet y −$140 en TV + Internet.'},
+  {p:'¿Por cuántos meses aplica el Totalamigo?', o:['3','5','6','12'], r:1,
+   x:'Del mes 1 al mes 5. En el mes 6 regresa al precio del plan.'},
+  {p:'¿El Totalamigo convive con Netflix con anuncios incluido?', o:['Sí','No, el cliente elige uno','Solo en Experto','Solo con TV'], r:1,
+   x:'Totalamigo y Más Apps son excluyentes.'},
+  {p:'Los códigos "NEG-" que aparecen en cada megaje son…', o:['Características del plan','El nombre de la promoción a capturar en el sistema','Claves de descuento para el cliente','Números de serie'], r:1,
+   x:'Son el nombre de la promoción que debes modelar.'},
+  {p:'El descuento de portabilidad en Negocios se aplica…', o:['Por cada línea portada','Por cuenta, no por línea','Solo en TV','Por 5 meses'], r:1,
+   x:'Es por cuenta y dura 1 mes. Solo lo modela Portabilidad.'},
+  {p:'¿Cuánto cuesta la 1ª TV adicional en Negocios con la promoción?', o:['$99 permanente','$129','$199','Gratis 3 meses'], r:0,
+   x:'$99 al mes de forma permanente, solo en la primera TV adicional.'}
  ]
 },
 {
