@@ -284,6 +284,7 @@ var PIN_PRECARGADO = '8888';
       Al día siguiente del fin, el tema se oculta para todos MENOS para
       el DIRECTOR DISTRITAL, que lo ve con aviso para actualizarlo o quitarlo. */
 var VIGENCIAS = {
+  beisbol:   '2026-11-15',
   combo3:    '2026-10-31',
   paramount: '2026-10-31',
   blacknut:  '2026-09-30',
@@ -309,7 +310,8 @@ var PERMISOS = {
       La marca "nuevo" o "actualizado" se ve durante 15 días desde esa fecha
       y luego desaparece sola, sin que nadie tenga que quitarla a mano. */
 var NOVEDADES = {
-  combo3:     { tipo:'nuevo',       fecha:'2026-10-09' },
+  beisbol:    { tipo:'nuevo',       fecha:'2026-10-12' },
+  combo3:    { tipo:'nuevo',       fecha:'2026-10-09' },
   nfl:        { tipo:'nuevo',       fecha:'2026-10-09' },
   paramount:  { tipo:'nuevo',       fecha:'2026-10-09' },
   negpromos:  { tipo:'nuevo',       fecha:'2026-10-09' },
@@ -343,6 +345,37 @@ var PUESTOS_REPORTE = ['DIRECTOR DISTRITAL','LIDER DE VENTAS','LIDER VENTAS','CO
    CONTENIDO
    ===================================================================== */
 var TEMAS = [
+{
+ id:'beisbol', nombre:'1Baseball Network sin costo', icono:'⚾', pie:'Canal 585 y App Totalplay · vigencia 15 nov 2026',
+ tarjetas:[
+  {f:'¿Cuál es la promoción de 1Baseball Network?', d:'Por tiempo limitado, todo cliente con plan Totalplay TV + Internet se lleva 1Baseball Network sin costo adicional: $0 más al mes. Comunicado Residencial Nacional "Un home run para tus ventas", vigente hasta el 15 de noviembre de 2026.'},
+  {f:'¿A quién le aplica?', d:'Solo a clientes con plan TV + Internet, nuevos y actuales. Con solo Internet NO lo tiene: es tu oportunidad para ofrecerle su plan con TV.'},
+  {f:'¿Dónde lo ve el cliente?', d:'En su tele, en el canal 585 de Totalplay TV, y donde quiera en la App Totalplay.'},
+  {f:'¿Qué ligas puede ver?', d:'MLB (Grandes Ligas de Estados Unidos) · LMP, Liga Mexicana del Pacífico, el beisbol de invierno de casa · LIDOM, de República Dominicana · LVBP, Liga Venezolana · y el programa Baseball Update, con lo más relevante del beisbol al día.'},
+  {f:'¿Por qué ofrecerlo justo ahora?', d:'Octubre y noviembre son meses de beisbol: postemporada de Grandes Ligas y arranque de las ligas de invierno. El cliente fan lo quiere ya.'},
+  {f:'El marcador: Solo Internet vs TV + Internet', d:'Internet de fibra: los dos ✔ · Canales en vivo: solo con TV · 1Baseball Network canal 585: solo con TV · Beisbol en la App Totalplay: solo con TV. Carreras: Solo Internet 1, TV + Internet 4. Solo Internet se queda en primera base.'},
+  {f:'Recorre las bases y anota la venta', d:'1ª Pregunta: "¿En tu casa ven beisbol? ¿A qué equipo le van?". 2ª Gancho: "Con TV + Internet te llevas 1Baseball Network sin pagar más". 3ª Compara: "Con solo internet te lo pierdes". Home: "Es hasta el 15 de noviembre, ¿te lo dejo con TV para que no te pierdas ni un juego?"'},
+  {f:'Objeción: "Solo quiero internet, ¿lo puedo ver?"', d:'No. El beneficio es para planes TV + Internet. Enséñale el marcador y ofrécele su plan con TV.'},
+  {f:'Objeción: "Ya soy cliente con TV, ¿también me toca?"', d:'Sí. Lo disfrutan todos los clientes con planes Totalplay TV + Internet.'},
+  {f:'El speech para batear', d:'"¿Te gusta el beisbol? Con tu plan Totalplay TV + Internet te llevas 1Baseball Network sin costo adicional: Grandes Ligas, la Liga Mexicana del Pacífico, LIDOM y la Venezolana, en el canal 585 y en la App Totalplay. Es por tiempo limitado. ¿Te lo dejo con TV?"'}
+ ],
+ preguntas:[
+  {p:'¿Cuánto paga de más el cliente por 1Baseball Network?', o:['$0, viene sin costo adicional','$69 al mes','$100 al mes','$149 al mes'], r:0,
+   x:'Viene sin costo adicional en los planes TV + Internet, por tiempo limitado.'},
+  {p:'¿En qué canal de Totalplay TV está 1Baseball Network?', o:['210','482','585','600'], r:2,
+   x:'Canal 585, y también en la App Totalplay.'},
+  {p:'Un cliente con solo Internet, ¿puede ver 1Baseball Network?', o:['Sí, en la App Totalplay','No: es solo para planes TV + Internet','Sí, pagando $100','Solo desde 500 megas'], r:1,
+   x:'Es solo para TV + Internet. Aprovecha para ofrecerle su plan con TV.'},
+  {p:'¿Hasta cuándo está vigente la promoción?', o:['31 de octubre de 2026','15 de noviembre de 2026','31 de diciembre de 2026','Es permanente'], r:1,
+   x:'Por tiempo limitado, hasta el 15 de noviembre de 2026.'},
+  {p:'¿Cuál de estas ligas NO aparece en 1Baseball Network?', o:['MLB','LIDOM','Liga Mexicana del Pacífico','NFL'], r:3,
+   x:'Trae MLB, LMP, LIDOM, LVBP y Baseball Update. La NFL va en NFL Game Pass en DAZN.'},
+  {p:'Un cliente actual con plan TV + Internet pregunta si le toca el canal…', o:['No, solo clientes nuevos','Sí, lo disfrutan los clientes con TV + Internet','Solo si renueva contrato','Solo pagando la diferencia'], r:1,
+   x:'Aplica para los clientes con planes Totalplay TV + Internet.'},
+  {p:'En el speech de las bases, ¿qué haces en primera base?', o:['Cierras la venta','Comparas con solo Internet','Preguntas si en casa ven beisbol y a qué equipo le van','Mandas el WhatsApp'], r:2,
+   x:'Primera base es descubrir al fan con una pregunta.'}
+ ]
+},
 {
  id:'combo3', nombre:'Combo 3 Apps · $209', icono:'🔥', pie:'Disney+, Apple TV y Amazon Prime · vigencia 31 oct 2026',
  tarjetas:[
