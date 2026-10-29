@@ -1008,7 +1008,9 @@ function cargarDirectorio(alTerminar){
   var guardado = null;
   try { guardado = JSON.parse(localStorage.getItem(LLAVE_DIR) || 'null'); } catch(e){ guardado = null; }
 
-  if (guardado && guardado.filas && guardado.filas.length){
+  /* La copia guardada es de quien la bajó: si en el mismo teléfono entra
+     otro jefe, se le baja la suya. */
+  if (guardado && guardado.de === USUARIO.num && guardado.filas && guardado.filas.length){
     DIRECTORIO = guardado.filas;
     alTerminar(true);
     if (Date.now() - (guardado.t||0) > 6*3600*1000) bajarDirectorio(function(){});
@@ -1035,7 +1037,7 @@ function bajarDirectorio(alTerminar){
     }
     if (filas.length){
       DIRECTORIO = filas;
-      try { localStorage.setItem(LLAVE_DIR, JSON.stringify({t:Date.now(), filas:filas})); } catch(e){}
+      try { localStorage.setItem(LLAVE_DIR, JSON.stringify({t:Date.now(), de:USUARIO && USUARIO.num, filas:filas})); } catch(e){}
     }
     alTerminar(DIRECTORIO.length > 0);
   })['catch'](function(){ alTerminar(DIRECTORIO.length > 0); });
@@ -1383,10 +1385,59 @@ function guardarSesion(){
 
 /* Bitácora propia de repasayvende (pestaña "Accesos Repasa", separada de
    la de avancecomisiones). Se llama solo al completar un login real, no
-   en cada recarga de página. Best effort: si falla, no pasa nada. */
+   en cada recarga de página.
+   Con datos móviles la señal va y viene: la entrada se guarda primero en
+   el teléfono y se reintenta hasta que el servidor conteste, aunque la
+   persona cierre la app y la abra otro día. */
+var LLAVE_ENTRADAS = 'cap_entradas_pendientes';
+var MANDANDO_ENTRADAS = false;
+var RELOJ_ENTRADAS = null;
+
+function leerEntradas(){
+  try { return JSON.parse(localStorage.getItem(LLAVE_ENTRADAS) || '[]') || []; } catch(e){ return []; }
+}
+function guardarEntradas(lista){
+  try { localStorage.setItem(LLAVE_ENTRADAS, JSON.stringify(lista)); } catch(e){}
+}
+
 function registrarEntrada(u){
-  llamarBackend({accion:'registrarAccesoRepasa', num:u.num, nombre:u.nombre||'',
-                 puesto:u.posicion||'', distrito:u.distrito||''}, 15)['catch'](function(){});
+  var pend = leerEntradas();
+  pend.push({ num:u.num, nombre:u.nombre||'', puesto:u.posicion||'', distrito:u.distrito||'',
+              marca:new Date().toISOString() });
+  guardarEntradas(pend);
+  mandarEntradas();
+
+  /* El reporte del equipo se arma con la bitácora de estudio, no con
+     "Accesos Repasa": sin esto, quien entra solo a ver el reporte de su
+     gente (coaches, líderes) le aparece a su jefe como "sin entrar". */
+  abrirSesion('entrada');
+  cerrarSesion();
+}
+
+/* Manda las entradas pendientes de una en una. Solo se borra una cuando
+   el servidor contestó; si no hubo red, se reintenta en un minuto, al
+   recuperar señal o al volver a abrir la app. Puede quedar alguna
+   duplicada si el servidor la recibió pero la respuesta se perdió, que
+   es mejor que perderla. */
+function mandarEntradas(){
+  if (MANDANDO_ENTRADAS) return;
+  var limite = Date.now() - 7*24*3600*1000;
+  var pend = leerEntradas().filter(function(e){ return e && e.num && new Date(e.marca).getTime() > limite; });
+  guardarEntradas(pend);
+  if (!pend.length) return;
+
+  MANDANDO_ENTRADAS = true;
+  clearTimeout(RELOJ_ENTRADAS);
+  var e = pend[0];
+  llamarBackend({accion:'registrarAccesoRepasa', num:e.num, nombre:e.nombre,
+                 puesto:e.puesto, distrito:e.distrito, marca:e.marca}, 30).then(function(){
+    guardarEntradas(leerEntradas().filter(function(x){ return !(x.num === e.num && x.marca === e.marca); }));
+    MANDANDO_ENTRADAS = false;
+    mandarEntradas();
+  })['catch'](function(){
+    MANDANDO_ENTRADAS = false;
+    RELOJ_ENTRADAS = setTimeout(mandarEntradas, 60*1000);
+  });
 }
 
 function entrarApp(){
@@ -1423,6 +1474,8 @@ function salir(){
   USUARIO = null;
   TOKEN = '';
   DIRECTORIO = [];
+  DATOS_REPORTE = null;
+  ADV = null;
   try { sessionStorage.removeItem('cap_usuario'); } catch(e){}
   $('app').classList.add('oculto');
   $('acceso').classList.remove('oculto');
@@ -1896,6 +1949,9 @@ function descendencia(numero){
 function abrirReporte(){
   VISTA = 'reporte';
   RUTA = [];
+  /* Siempre la bitácora fresca: si no, quien entró después de la primera
+     consulta sigue saliendo como "sin entrar" hasta recargar la app. */
+  DATOS_REPORTE = null;
   $('vista').innerHTML = '<button class="btn fantasma" id="volver">‹ Volver</button>' +
                          '<h1>Resultados de mi equipo</h1><p id="cargando">Consultando el directorio…</p>';
   $('volver').addEventListener('click', pintarMenu);
@@ -2004,11 +2060,12 @@ function resumenDe(numeros){
   var personas = {}, r = { personas:0, sesiones:0, minutos:0, mejores:[] };
   for (i=0;i<ses.length;i++){
     var s = ses[i];
-    if (!set[norm(s.numero)]) continue;
+    var num = norm(s.numero);
+    if (!set[num]) continue;
     r.sesiones++;
     r.minutos += s.minutos || 0;
-    if (!personas[s.numero]) personas[s.numero] = { veces:0, minutos:0, mejor:0, ultima:'' };
-    var p = personas[s.numero];
+    if (!personas[num]) personas[num] = { veces:0, minutos:0, mejor:0, ultima:'' };
+    var p = personas[num];
     p.veces++; p.minutos += s.minutos || 0;
     if (s.modo === 'cuestionario' && s.calificacion > p.mejor) p.mejor = s.calificacion;
     if (s.fin > p.ultima) p.ultima = s.fin;
@@ -2032,7 +2089,7 @@ function pintarNivel(numero){
     '<div class="eyebrow">' + esc(yo.posicion || '') + '</div>' +
     '<h1>' + esc(yo.nombre || yo.num) + '</h1>' +
     '<div class="cifras">' +
-      '<div class="cifra"><div class="n">' + res.personas + ' / ' + equipo.length + '</div><div class="l">Ya estudiaron</div></div>' +
+      '<div class="cifra"><div class="n">' + res.personas + ' / ' + equipo.length + '</div><div class="l">Ya entraron</div></div>' +
       '<div class="cifra"><div class="n">' + pctActivos + '%</div><div class="l">Participación</div></div>' +
       '<div class="cifra"><div class="n">' + res.minutos + '</div><div class="l">Minutos totales</div></div>' +
       '<div class="cifra"><div class="n">' + res.sesiones + '</div><div class="l">Veces que entraron</div></div>' +
@@ -2178,6 +2235,7 @@ function alCambiarVisibilidad(){
     }
     salioEn = 0;
     if (CRONO) CRONO.sigue();
+    mandarEntradas();
   }
 }
 
@@ -2195,6 +2253,8 @@ function arrancar(){
   $('btnSalir').addEventListener('click', salir);
   document.addEventListener('visibilitychange', alCambiarVisibilidad);
   window.addEventListener('pagehide', function(){ enviar(true); });
+  window.addEventListener('online', mandarEntradas);
+  mandarEntradas();
 
   try {
     var g = JSON.parse(sessionStorage.getItem('cap_usuario') || 'null');
